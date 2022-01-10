@@ -3,7 +3,7 @@
 ## 🍕 겨울방학 도서관 어플리케이션 프로젝트
 
 ### 📍 Project Role
-- Front-End : wakhoo (Chae-Won-Jun)
+- Front-End : wakhoo (Chae-Won-Jeon)
 - Back-End : zidh1(Ki-Uk-Kim) , jey0623(Eun-Young-Jung)
 
 ### 📍 Language for Project
