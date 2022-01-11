@@ -4,7 +4,7 @@
 
 ### 📍 Project Role
 - Front-End : wakhoo (Chae-Won-Jeon)
-- Back-End : zidh1(Ki-Uk-Kim) , jey0623(Eun-Young-Jung)
+- Back-End : zidh1(Ki-Uk-Kim) , jey0623(Eun-Yeong-Jung)
 
 ### 📍 Language for Project
 - Front-End : React-Native
