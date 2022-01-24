@@ -34,6 +34,6 @@
 
 ### 회의록 및 추가 정보
 
-- <a href = https://overjoyed-silence-954.notion.site/f12231a5ca214b31a0fb4c4838b8a45a>팀 게시판 </a>
+- <a href = https://www.notion.so/3432a6226ca648d29bedf8c76fc13412>팀 게시판 </a>
 - <a href = https://overjoyed-silence-954.notion.site/2021-01-09-08b4061e54844ac184a7b88d8b2460d6>회의록(2021.01.09)
 
