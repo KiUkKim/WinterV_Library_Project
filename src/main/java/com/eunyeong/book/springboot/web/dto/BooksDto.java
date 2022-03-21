@@ -116,6 +116,7 @@ public class BooksDto {
         private LocalDate loanDate;
         private Integer extensionCount;
         private Long user;
+        private String bookTitle;
 
         public CollectInfoListResponseDto(CollectInfo entity) {
             this.book = entity.getBook().getId();
@@ -128,6 +129,7 @@ public class BooksDto {
             this.loanDate= entity.getLoanDate();
             this.extensionCount= entity.getExtensionCount();
             this.user= entity.getUser().getSeq();
+            this.bookTitle = entity.getBook().getTitle();
         }
     }
 
