@@ -1,0 +1,59 @@
+buildscript {
+    ext { //build.gradle에서 사용하는 전역변수 설정
+        springBootVersion = '2.1.8.RELEASE' //전역변수 생성과 값 설정
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management' // 스프링 부트의 의존성들을 관리해 주는 플러그인
+
+group 'org.eunyeong.book'
+version '1.0.4-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
+sourceCompatibility = '1.8'
+
+repositories { // 각종 의존성(라이브러리)들을 어떤 원격 저장소에서 받을지 정함
+    mavenCentral()
+    jcenter() //라이브러리 저장소
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.5'
+    implementation 'org.assertj:assertj-core:3.22.0'
+
+
+// 의존성 선언
+    compile('org.springframework.boot:spring-boot-starter-web') // 버전 명시 x
+    compile('org.projectlombok:lombok')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    //compile('org.springframework.boot:spring-boot-starter-mustache')
+    //compile('com.h2database:h2')
+    compile('org.springframework.boot:spring-boot-devtools')
+
+    //compile('org.springframework.boot:spring-boot-starter-tomcat')
+    compile ('mysql:mysql-connector-java:8.0.20')
+
+    //compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+    compile('org.springframework.session:spring-session-jdbc')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    //testCompile("org.springframework.security:spring-security-test")
+    testCompile('org.assertj:assertj-core:3.22.0')
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+
