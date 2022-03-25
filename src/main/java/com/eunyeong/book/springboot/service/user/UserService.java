@@ -17,10 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-    @Autowired
     private final UserRepository userRepository;
-
-    @Autowired
     private final NoticeRepository noticeRepository;
 
     @Transactional

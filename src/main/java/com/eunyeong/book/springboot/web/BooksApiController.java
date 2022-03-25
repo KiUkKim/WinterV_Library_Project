@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class BooksApiController {
     private final BooksService booksService;
     private final UserService userService;
-    private final CategoryRepository categoryRepository;
+
 
     /**
      * books 저장
@@ -138,7 +138,7 @@ public class BooksApiController {
     @GetMapping("/book/category")
     @ResponseBody
     public Map<String, Object> categoryList(){
-        List<Category> categoryList = categoryRepository.findAll();
+        List<Category> categoryList = booksService.findCategoryList();
 
         Map<String, Object> map = new HashMap<>();
 
