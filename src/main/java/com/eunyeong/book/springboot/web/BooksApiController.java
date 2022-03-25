@@ -12,6 +12,8 @@ import com.eunyeong.book.springboot.web.dto.BooksDto;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.MediaType;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -33,6 +35,8 @@ public class BooksApiController {
     @PostMapping("/books/save")
     @ResponseBody
     public void booksSave(@RequestBody BooksDto.BooksSaveRequestDto bookRequestDto){
+//        Assert.notNull(bookRequestDto, "bookRequestDto must not be NULL");
+
         booksService.saveBooks(bookRequestDto);
     }
 
