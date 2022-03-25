@@ -52,6 +52,7 @@ public class BooksDto {
     }
 
     @Getter
+    @Setter
     @NoArgsConstructor
     public static class BooksSaveRequestDto{
         private Long id;
@@ -62,7 +63,6 @@ public class BooksDto {
         private String sign;
         private String publish;
         private String shape;
-        private List<CollectInfo> collectInfoList;
 
         @Builder
         public BooksSaveRequestDto(String title, String thumbnail, String type, String author, String sign, String publish, String shape) {
@@ -75,6 +75,7 @@ public class BooksDto {
             this.shape = shape;
         }
 
+        @NotNull
         public Books toEntity() {
             return Books.builder()
                     .title(title)
