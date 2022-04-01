@@ -2,7 +2,6 @@ package com.eunyeong.book.springboot.web;
 
 import com.eunyeong.book.springboot.domain.books.Books;
 import com.eunyeong.book.springboot.domain.books.Category;
-import com.eunyeong.book.springboot.domain.books.CategoryRepository;
 import com.eunyeong.book.springboot.domain.books.CollectInfo;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.service.books.BooksService;
@@ -12,9 +11,11 @@ import com.eunyeong.book.springboot.web.dto.BooksDto;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +31,9 @@ public class BooksApiController {
     /**
      * books 저장
      */
-    @PostMapping("/books/save")
+    @PostMapping(value = "/books/save", consumes = {"application/json"})
     @ResponseBody
-    public void booksSave(@RequestBody BooksDto.BooksSaveRequestDto bookRequestDto){
+    public void booksSave(@RequestBody BooksDto.BooksSaveRequestDto bookRequestDto) {
         booksService.saveBooks(bookRequestDto);
     }
 
@@ -42,7 +43,7 @@ public class BooksApiController {
     @PostMapping("/collectinfo/save")
     @ResponseBody
     public Long collectInfoSave(@RequestBody BooksDto.CollectInfoListResponseDto collectInfoListResponseDto) {
-        Books book=booksService.findBooks(collectInfoListResponseDto.getBook());
+        Books book = booksService.findBooks(collectInfoListResponseDto.getBook());
         Category collectLocation = booksService.findCategory(collectInfoListResponseDto.getCollectLocation());
 
         BooksDto.CollectInfoSaveRequestDto collectInfoSaveRequestDto = new BooksDto.CollectInfoSaveRequestDto();
@@ -63,7 +64,7 @@ public class BooksApiController {
     @ResponseBody
     public Map<String, Object> search(@RequestBody HashMap<String, Object> param) {
 
-        String keyword=param.get("keyword").toString();
+        String keyword = param.get("keyword").toString();
 
         Map<String, Object> map = new HashMap<>();
 
@@ -77,7 +78,7 @@ public class BooksApiController {
      */
     @GetMapping("/book/detail")
     @ResponseBody
-    public Map<String, Object> searchDetail(@RequestBody HashMap<String, Object> param){
+    public Map<String, Object> searchDetail(@RequestBody HashMap<String, Object> param) {
 
         String title = param.get("title").toString();
 
@@ -93,34 +94,66 @@ public class BooksApiController {
      */
     @PutMapping("/book/loan")
     @ResponseBody
-    public void loan(@RequestBody HashMap<String, Long> param){
-        Long seq=param.get("seq");
-        CollectInfo collectInfo=booksService.findCollectInfo(seq);
+    public void loan(@RequestBody HashMap<String, Long> param) {
 
-        Long user_id=param.get("user_id");
+        Long seq = param.get("seq");
+
+        Long user_id = param.get("user_id");
+
         User user = userService.findUser(user_id);
 
-        BooksDto.CollectInfoUpdateRequestDto requestDto = new BooksDto.CollectInfoUpdateRequestDto() ;
-        BeanUtils.copyProperties(collectInfo, requestDto);
+        BooksDto.CollectInfoUpdateRequestDto requestDto = new BooksDto.CollectInfoUpdateRequestDto();
+        Assert.notNull(user , "user must not be NULL");
 
         requestDto.setState(0);
-        requestDto.setUser(user); //빌린 사람
         requestDto.setLoanDate(LocalDate.now());//대출날짜 // 컴퓨터의 현재 날짜 정보 2018-07-26
         requestDto.setReturnDate(LocalDate.now().plusDays(14)); // 반납일 2주 뒤
+        requestDto.setReserveState(0);
         requestDto.setExtensionCount(0);//연장횟수
-        //reserveState는 수정 필요
+        requestDto.setUser(user); //빌린 사람
 
-        booksService.update(seq, requestDto);
+        booksService.updateCollectInfo(seq, requestDto);
+
+        booksService.possibleReserve(seq, "loan");
+
     }
+
+    /**
+     * 반납 기능
+     */
+    @PutMapping("/book/return")
+    @ResponseBody
+    public void returnBook(@RequestBody HashMap<String, Long> param) {
+
+        Long seq = param.get("seq");
+        CollectInfo collectInfo = booksService.findCollectInfo(seq);
+
+        Long user_id = param.get("user_id");
+        User user = userService.findUser(user_id);
+
+        BooksDto.CollectInfoUpdateRequestDto requestDto = new BooksDto.CollectInfoUpdateRequestDto();
+
+        requestDto.setState(1);
+        requestDto.setLoanDate(null);//대출날짜 // 컴퓨터의 현재 날짜 정보 2018-07-26
+        requestDto.setReturnDate(null); // 반납일 2주 뒤
+        requestDto.setExtensionCount(null);//연장횟수
+        requestDto.setUser(null); //빌린 사람
+        requestDto.setReserveState(null);
+        booksService.updateCollectInfo(seq, requestDto);
+
+        booksService.possibleReserve(seq, "return");
+
+    }
+
 
     /**
      * 대출현황 리스트 조회
      */
     @GetMapping("/book/loan/status")
     @ResponseBody
-    public Map<String, Object> loan_status(@RequestBody HashMap<String, Long> param){
-        Long user_id=param.get("user_id");
-        User user=userService.findUser(user_id);
+    public Map<String, Object> loan_status(@RequestBody HashMap<String, Long> param) {
+        Long user_id = param.get("user_id");
+        User user = userService.findUser(user_id);
 
         Map<String, Object> map = new HashMap<>();
 
@@ -133,7 +166,7 @@ public class BooksApiController {
      */
     @GetMapping("/book/category")
     @ResponseBody
-    public Map<String, Object> categoryList(){
+    public Map<String, Object> categoryList() {
         List<Category> categoryList = booksService.findCategoryList();
 
         Map<String, Object> map = new HashMap<>();
@@ -142,6 +175,7 @@ public class BooksApiController {
 
         return map;
     }
+
 
 }
 

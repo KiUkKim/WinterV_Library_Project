@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserById(String id);
 
     @Query("SELECT u FROM User u WHERE u.seq =:user_id")
-    User findUserByid(Long user_id);
+    User findUserById(Long user_id);
 
 }

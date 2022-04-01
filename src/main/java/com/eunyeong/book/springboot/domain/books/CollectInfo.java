@@ -69,9 +69,10 @@ public class CollectInfo {
         this.user=user;
     }
 
-    public void update(Integer state, LocalDate returnDate, Integer reserveState, Integer extensionCount, User user){
+    public void update(Integer state, LocalDate loanDate, LocalDate returnDate, Integer reserveState, Integer extensionCount,  User user){
         //this.collectLocation = collectLocation;
         this.state = state;
+        this.loanDate = loanDate;
         this.returnDate = returnDate;
         this.reserveState = reserveState;
         this.extensionCount=extensionCount;

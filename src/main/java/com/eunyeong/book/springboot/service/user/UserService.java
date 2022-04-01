@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final NoticeRepository noticeRepository;
 
@@ -43,7 +44,7 @@ public class UserService {
 
     @Transactional
     public User findUser(Long user_id) {
-        return userRepository.findUserByid(user_id);
+        return userRepository.findUserById(user_id);
     }
 
     @Transactional

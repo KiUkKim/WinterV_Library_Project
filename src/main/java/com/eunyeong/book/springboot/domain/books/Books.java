@@ -46,7 +46,7 @@ public class Books extends BaseTimeEntity {
     // 1:N 관계로 맵핑할떄 orphanRemoval=true로 자주사용하게 된다.
     // 1:N관계는 자식엔티티의 수정 순서를 insert - update - update - delete순으로 결정되어 진다.
     // 변경된 자식 먼저 insert, 기존의 자식을 null로 update, 이렇게 부모가 없어진 null처리된 자식을 delete해주는 옵션
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "book", orphanRemoval = true)
     private List<CollectInfo> collectInfoList = new ArrayList<>();
 

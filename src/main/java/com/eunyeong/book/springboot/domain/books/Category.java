@@ -21,7 +21,6 @@ public class Category {
     @Column(unique = true)
     private String collectLocation;
 
-
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "collectLocation", orphanRemoval = true)
     private List<CollectInfo> collectInfoList = new ArrayList<>();
