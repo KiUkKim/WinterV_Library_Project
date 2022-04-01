@@ -78,4 +78,5 @@ public class CollectInfo {
         this.extensionCount=extensionCount;
         this.user=user;
     }
+
 }

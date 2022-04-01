@@ -209,5 +209,18 @@ public class BooksDto {
     }
 
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CollectInfoUpdateLoanRequestDto {
+
+        private Integer reserveState;
+
+        @Builder
+        public CollectInfoUpdateLoanRequestDto(Integer reserveState){
+            this.reserveState=reserveState;
+        }
+    }
+
 
 }
