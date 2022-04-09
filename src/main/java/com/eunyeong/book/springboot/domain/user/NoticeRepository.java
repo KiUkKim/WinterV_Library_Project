@@ -25,7 +25,24 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     @Query("SELECT n FROM Notice n")
     List<Notice> findNoticeByIdOrderByIdDesc();
 
-    // Notice에서 해당하는 id에 대한 정보가져오기
+    // Notice에서 해당하는 id에 대한 정보가져오기 ( List로 출력을 위함 )
     @Query("SELECT n FROM Notice n WHERE n.id = :id")
     List<Notice> findNoticeById(Long id);
+
+    /*
+    Update에서 사용되는 query sentence
+     */
+    @Query("SELECT count(n) FROM Notice n WHERE n.user.seq = :user_seq and n.id = :id")
+    int TrueOrFalseInNotice(Long user_seq, Long id);
+
+    // Notice에서 해당하는 id에 대한 정보가져오기 ( Notice 객체로 가져오기 )
+    @Query("SELECT n FROM Notice n WHERE n.id = :id")
+    Notice findNotice(Long id);
+
+
+    /////// Delete 관련////////////
+    @Modifying
+    @Query("DELETE FROM Notice n WHERE n.id = :id")
+    int deleteNotice(Long id);
+
 }

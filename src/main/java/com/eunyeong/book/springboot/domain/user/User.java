@@ -32,13 +32,14 @@ public class User extends BaseTimeEntity {
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    private List<CollectInfo> collectInfoList = new ArrayList<>();
+    private List<CollectInfo> collectInfoListForUser = new ArrayList<>();
 
     @Builder
-    public User(String accessToken, UserInfo userInfo, List<Notice> noticeList){
+    public User(String accessToken, UserInfo userInfo, List<Notice> noticeList, List<CollectInfo> collectInfoList){
         this.accessToken = accessToken;
         this.userInfo = userInfo;
         this.noticeList = noticeList;
+        this.collectInfoListForUser = collectInfoList;
     }
 
     public void accessTokenUpdate(String accessToken)

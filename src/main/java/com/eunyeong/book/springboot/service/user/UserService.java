@@ -1,6 +1,7 @@
 package com.eunyeong.book.springboot.service.user;
 
 import com.eunyeong.book.springboot.domain.books.Books;
+import com.eunyeong.book.springboot.domain.user.Notice;
 import com.eunyeong.book.springboot.domain.user.NoticeRepository;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.domain.user.UserRepository;
@@ -17,7 +18,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final NoticeRepository noticeRepository;
 
     @Transactional
@@ -56,6 +60,25 @@ public class UserService {
         return id;
     }
 
+    ///////////////////////////// User 정보 출력 부분 //////////////////////////
+    // User 전체 출력
+    @Transactional
+    public List<UserDto.UserListRequestDto> searchAllDescUser()
+    {
+        return userRepository.findAllByUser().stream()
+                .map(UserDto.UserListRequestDto::new)
+                .collect(Collectors.toList());
+    }
+
+
+    // User email에 대한 출력
+    @Transactional
+    public List<UserDto.UserListRequestDto> searchUserByEmail(String email)
+    {
+        return userRepository.findUserByEmail(email).stream()
+                .map(UserDto.UserListRequestDto::new)
+                .collect(Collectors.toList());
+    }
 
     //////////////////// NOTICE 관련 Transactional 공간 //////////////////////////
 
@@ -114,6 +137,52 @@ public class UserService {
         return noticeRepository.findNoticeByIdOrderByIdDesc().stream()
                 .map(UserDto.NoticeListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+
+    /////// Update 관련 ///////////
+
+    /*
+    front의 현재 접속되어 있는 유저와, Notice table에 저장되어있는 유저를 비교하기 위함 ( Update를 위한 Transactional)
+     */
+
+    @Transactional
+    public Long update(Long id, UserDto.NoticeUpdateRequestDto noticeUpdateRequestDto)
+    {
+        Notice notice = noticeRepository.findNotice(id);
+
+        Long seq = noticeRepository.userIdForEmail(noticeUpdateRequestDto.getEmail());
+
+        int check = noticeRepository.TrueOrFalseInNotice(seq, id);
+
+        System.out.println(check);
+
+        if(check < 1)
+        {
+            throw new RuntimeException("게시물의 작성자가 아닙니다.");
+        }
+
+        notice.update(noticeUpdateRequestDto.getTitle(), noticeUpdateRequestDto.getContent());
+        return id;
+    }
+
+
+    ///////// Delete 관련 /////////////
+    @Transactional
+    public void delete(Long id, UserDto.NoticeDeleteRequestDto noticeDeleteRequestDto)
+    {
+        Long seq = noticeRepository.userIdForEmail(noticeDeleteRequestDto.getEmail());
+
+        int check = noticeRepository.TrueOrFalseInNotice(seq, id);
+
+        System.out.println(check);
+
+        if(check < 1)
+        {
+            throw new RuntimeException("게시물의 작성자가 아닙니다.");
+        }
+
+        noticeRepository.deleteNotice(id);
     }
 
 }
