@@ -2,12 +2,15 @@ package com.eunyeong.book.springboot.domain.books;
 
 import com.eunyeong.book.springboot.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -41,6 +44,9 @@ public class CollectInfo {
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="book_id")
     private Books book;
+
+    @OneToOne(mappedBy = "collectInfo")
+    private Reserve reserve;
 
     //대출 관련 컬럼
     @Column

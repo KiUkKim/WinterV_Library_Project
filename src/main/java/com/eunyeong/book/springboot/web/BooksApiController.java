@@ -3,11 +3,13 @@ package com.eunyeong.book.springboot.web;
 import com.eunyeong.book.springboot.domain.books.Books;
 import com.eunyeong.book.springboot.domain.books.Category;
 import com.eunyeong.book.springboot.domain.books.CollectInfo;
+import com.eunyeong.book.springboot.domain.books.Reserve;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.service.books.BooksService;
 
 import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.BooksDto;
+import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.BeanUtils;
@@ -176,6 +178,72 @@ public class BooksApiController {
         return map;
     }
 
+    /**
+     * 예약 기능 (예약 버튼을 눌렀을 경우)
+     */
+    @PutMapping("/book/reserve")
+    @ResponseBody
+    public void reserveBook(@RequestBody HashMap<String, Long> param) {
+        Long seq = param.get("seq");
+        CollectInfo collectInfo = booksService.findCollectInfo(seq);
+
+        Long user_id = param.get("user_id");
+        User user = userService.findUser(user_id);
+
+
+        BooksDto.ReserveSaveRequestDto reserveRequestDto = new BooksDto.ReserveSaveRequestDto();
+
+        reserveRequestDto.setUser(user);
+        reserveRequestDto.setCollectInfo(collectInfo);
+        reserveRequestDto.setReserveDate(LocalDate.now()); //예약일
+        reserveRequestDto.setArrivalNoticeDate(null); //도착통보일
+        reserveRequestDto.setLoanWatingDate(null);  //대출대기일
+        reserveRequestDto.setRanking(null);
+        reserveRequestDto.setState(1); // 뭐가 있는지는 잘 모르겠음 (일단 0: 관리자 취소, 1: 완료)
+        reserveRequestDto.setCancel(null);
+
+        booksService.saveReserve(reserveRequestDto);
+
+        BooksDto.CollectInfoUpdateRequestDto requestDto2 = new BooksDto.CollectInfoUpdateRequestDto();
+        BeanUtils.copyProperties(collectInfo, requestDto2);
+        requestDto2.setReserveState(0); //예약 불가능(0)으로 바꿔야 함
+
+        booksService.updateCollectInfo(seq, requestDto2);
+
+    }
+
+    /**
+     * 예약 도서 도착했을 경우 업데이트
+     */
+    @PutMapping("/book/reserve/arrive")
+    @ResponseBody
+    public void arriveReserve(@RequestBody HashMap<String, Long> param) {
+        Long seq = param.get("seq");
+        Reserve reserve = booksService.findReserve(seq);
+
+        BooksDto.ReserveUpdateRequestDto reserveRequestDto = new BooksDto.ReserveUpdateRequestDto();
+        BeanUtils.copyProperties(reserve, reserveRequestDto);
+
+        reserveRequestDto.setArrivalNoticeDate(LocalDate.now()); //도착통보일
+        reserveRequestDto.setLoanWatingDate(LocalDate.now().plusDays(2));  //대출대기일
+
+        booksService.updateReserve(seq, reserveRequestDto);
+    }
+
+
+
+    /**
+     * 예약 현황 조회
+     */
+    @GetMapping("/book/reserve/status")
+    @ResponseBody
+    public List<Reserve> ReserveAllList(@RequestBody HashMap<String, Long> param){
+        Long user_id = param.get("user_id");
+
+        return booksService.searchReserveAllDesc(user_id);
+    }
+
+    //예약도서를 대출했을 경우 따져줘야 함
 
 }
 

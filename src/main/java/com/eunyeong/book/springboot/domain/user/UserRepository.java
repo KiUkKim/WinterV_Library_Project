@@ -1,5 +1,6 @@
 package com.eunyeong.book.springboot.domain.user;
 
+import com.eunyeong.book.springboot.domain.books.Reserve;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.userInfo.id = :id")
     User findUserById(String id);
 
-    @Query("SELECT u FROM User u WHERE u.seq =:user_id")
+    @Query("SELECT u FROM User u WHERE u.seq = :user_id")
     User findUserById(Long user_id);
 
+    @Query("SELECT u FROM User u WHERE u.seq = :user_id")
+    List<User> findUserByIdForReserve(Long user_id);
 }

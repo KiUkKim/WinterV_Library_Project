@@ -1,5 +1,7 @@
 package com.eunyeong.book.springboot.web.dto;
 
+import com.eunyeong.book.springboot.domain.books.CollectInfo;
+import com.eunyeong.book.springboot.domain.books.Reserve;
 import com.eunyeong.book.springboot.domain.user.Notice;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.domain.user.UserInfo;
@@ -133,6 +135,39 @@ public class UserDto {
             this.view_count = entity.getView_count();
             this.email = entity.getUser().getUserInfo().getEmail();
             this.given_name = entity.getUser().getUserInfo().getGiven_name();
+        }
+
+    }
+
+
+
+    //////////////////////// Reserve Dto 부분 //////////////////////////
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class ReserveListResponseDto{
+        private Long seq;
+        private User user;
+        private CollectInfo collectInfo;
+        private LocalDate reserveDate;
+        private LocalDate arrivalNoticeDate;
+        private LocalDate loanWatingDate;
+        private Integer ranking;
+        private Integer state;
+        private Integer cancel;
+
+
+        public ReserveListResponseDto(Reserve entity)
+        {
+            this.seq = entity.getSeq();
+            this.user = entity.getUser();
+            this.collectInfo = entity.getCollectInfo();
+            this.reserveDate = entity.getReserveDate();
+            this.arrivalNoticeDate = entity.getArrivalNoticeDate();
+            this.loanWatingDate = entity.getLoanWatingDate();
+            this.ranking = entity.getRanking();
+            this.state = entity.getState();
+            this.cancel = entity.getCancel();
         }
 
     }

@@ -2,6 +2,8 @@ package com.eunyeong.book.springboot.service.books;
 
 import com.eunyeong.book.springboot.domain.books.*;
 import com.eunyeong.book.springboot.domain.user.User;
+import com.eunyeong.book.springboot.domain.user.UserRepository;
+import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.BooksDto;
 import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,10 @@ public class BooksService {
     private final CollectInfoRepository collectInfoRepository;
 
     private final CategoryRepository categoryRepository;
+
+    private final ReserveRepository reserveRepository;
+
+    private final UserRepository userRepository;
 
     @Transactional
     public Long saveBooks(BooksDto.BooksSaveRequestDto requestDto) {
@@ -88,10 +94,7 @@ public class BooksService {
     public void updateCollectInfo(Long seq, BooksDto.CollectInfoUpdateRequestDto requestDto) {
         CollectInfo collectInfo = collectInfoRepository.findCollectInfoBySeq(seq);
                 //.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. seq=" + seq));
-        System.out.println("requestDtoReserveState : " + requestDto.getReserveState());
         collectInfo.update(requestDto.getState(), requestDto.getLoanDate(), requestDto.getReturnDate(), requestDto.getReserveState(), requestDto.getExtensionCount(), requestDto.getUser());
-        System.out.print("seq : "+ collectInfo.getSeq()+' ');
-        System.out.println("reservestate : "+collectInfo.getReserveState());
     }
 
 
@@ -129,6 +132,9 @@ public class BooksService {
         return result;
     }
 
+    /**
+     * 대출 상태에 따른 예약 가능 여부 체크
+     */
     @Transactional
     public void possibleReserve(Long seq, String request) {
         // 해당 book의 각 category_id에 속해있는 collectinfo의 state가 다 대출중(0)이면 예약(reserveState)를 예약가능(1)로 세팅, 아니면 예약불가능(0)로 세팅
@@ -166,7 +172,32 @@ public class BooksService {
                 }
             }
         }
-
     }
 
+    @Transactional
+    public Long saveReserve(BooksDto.ReserveSaveRequestDto requestDto) {
+        return reserveRepository.save(requestDto.toEntity()).getSeq();
+    }
+
+    @Transactional
+    public Reserve findReserve(Long seq) {
+        return reserveRepository.findReserveBySeq(seq);
+    }
+
+    /**
+     * reserve 수정
+     */
+    @Transactional
+    public void updateReserve(Long seq, BooksDto.ReserveUpdateRequestDto requestDto) {
+        Reserve reserve = reserveRepository.findReserveBySeq(seq);
+        //.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. seq=" + seq));
+        reserve.update(requestDto.getArrivalNoticeDate(),requestDto.getLoanWatingDate(), requestDto.getRanking(), requestDto.getState(), requestDto.getCancel());
+    }
+
+    // reserve 전체 조회
+    @Transactional
+    public List<Reserve> searchReserveAllDesc(Long user_id)
+    {
+        return reserveRepository.findReserveByIdOrderByUserIdDesc(user_id);
+    }
 }
