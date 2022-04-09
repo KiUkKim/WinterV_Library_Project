@@ -55,9 +55,6 @@ public class BooksService {
 
 
     @Transactional
-    public List<Category> findCategoryList() {return categoryRepository.findAll();}
-
-    @Transactional
     public List<BooksDto.BooksListResponseDto> searchBooksDetail(String title){
         return booksRepository.findBookDetail(title).stream()
                 .map(BooksDto.BooksListResponseDto::new)
@@ -86,6 +83,7 @@ public class BooksService {
                 .map(BooksDto.CollectInfoListResponseDto::new)
                 .collect(Collectors.toList());
     }
+
 
 
 }

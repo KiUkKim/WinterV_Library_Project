@@ -48,7 +48,7 @@ public class Books extends BaseTimeEntity {
     // 변경된 자식 먼저 insert, 기존의 자식을 null로 update, 이렇게 부모가 없어진 null처리된 자식을 delete해주는 옵션
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "book", orphanRemoval = true)
-    private List<CollectInfo> collectInfoList = new ArrayList<>();
+    private List<CollectInfo> collectInfoListForBooks = new ArrayList<>();
 
     @Builder
     public Books(String title, String thumbnail, String type, String author, String sign, String publish, String shape, List<CollectInfo> collectInfoList){
@@ -59,7 +59,7 @@ public class Books extends BaseTimeEntity {
         this.sign = sign;
         this.publish = publish;
         this.shape = shape;
-        this.collectInfoList = collectInfoList;
+        this.collectInfoListForBooks = collectInfoList;
     }
 
     public void update(String title, String thumbnail, String type, String author, String sign, String publish, String shape){

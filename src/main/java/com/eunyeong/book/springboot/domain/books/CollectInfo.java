@@ -38,7 +38,7 @@ public class CollectInfo {
     private Integer reserveState;
 
     @JsonBackReference
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="book_id")
     private Books book;
 
@@ -50,7 +50,7 @@ public class CollectInfo {
     private Integer extensionCount;
 
     @JsonBackReference
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 

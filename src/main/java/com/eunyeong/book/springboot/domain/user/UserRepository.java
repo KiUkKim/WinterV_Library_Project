@@ -17,4 +17,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.seq =:user_id")
     User findUserByid(Long user_id);
 
+    @Query("SELECT u FROM User u")
+    List<User> findAllByUser();
+
+    @Query("SELECT u FROM User u WHERE u.userInfo.email = :email")
+    List<User> findUserByEmail(String email);
+
 }

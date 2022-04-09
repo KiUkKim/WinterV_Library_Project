@@ -59,6 +59,30 @@ public class UserDto {
         }
     }
 
+    // 유저 정보 출력 dto
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class UserListRequestDto{
+        private Long seq;
+        private String accessToken;
+        private String id;
+        private String email;
+        private String given_name;
+        private String picture;
+        private String hd;
+
+        public UserListRequestDto(User entity){
+            this.seq = entity.getSeq();
+            this.accessToken = entity.getAccessToken();
+            this.id = entity.getUserInfo().getId();
+            this.email = entity.getUserInfo().getEmail();
+            this.given_name = entity.getUserInfo().getGiven_name();
+            this.picture = entity.getUserInfo().getPicture();
+            this.hd = entity.getUserInfo().getHd();
+        }
+    }
+
 
     //////////////////////// Notice Dto 부분 //////////////////////////
 
@@ -135,6 +159,40 @@ public class UserDto {
             this.given_name = entity.getUser().getUserInfo().getGiven_name();
         }
 
+    }
+
+
+    // Notice Update Request
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class NoticeUpdateRequestDto{
+        private String email;
+        private Long id;
+        private String title;
+        private String content;
+
+        @Builder
+        public NoticeUpdateRequestDto(String title, String content){
+            this.title = title;
+            this.content = content;
+        }
+    }
+
+    // Notice Delete Request
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class NoticeDeleteRequestDto{
+        private String email;
+        private Long id;
+
+        @Builder
+        public NoticeDeleteRequestDto(String email, Long id)
+        {
+            this.email = email;
+            this.id = id;
+        }
     }
 
 

@@ -38,4 +38,10 @@ public class Notice extends BaseTimeEntity {
         this.view_count = view_count;
         this.user = user;
     }
+
+    public void update(String title, String content)
+    {
+        this.title = title;
+        this.content = content;
+    }
 }

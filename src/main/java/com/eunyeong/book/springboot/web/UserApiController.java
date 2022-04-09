@@ -8,6 +8,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -47,4 +50,28 @@ public class UserApiController {
         UserDto.UserdDto user = new UserDto.UserdDto(userDto.getAccessToken(), userDto.getUserInfo());
         return user;
     }
+
+    /*
+    전체 유저 조회
+     */
+
+    @GetMapping("/user")
+    @ResponseBody
+    public List<UserDto.UserListRequestDto> searchAllUser(){
+        return userService.searchAllDescUser();
+    }
+
+
+
+    /*
+    특정 유저 조회 (email로 조회)
+     */
+    @GetMapping("/user/search")
+    @ResponseBody
+    public List<UserDto.UserListRequestDto> searchUser(@RequestBody HashMap<String, Object> param){
+        String email = param.get("email").toString();
+
+        return userService.searchUserByEmail(email);
+    }
+
 }

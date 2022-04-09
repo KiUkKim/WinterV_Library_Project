@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class BooksApiController {
     private final BooksService booksService;
     private final UserService userService;
-
+    private final CategoryRepository categoryRepository;
 
     /**
      * books 저장
@@ -102,12 +102,16 @@ public class BooksApiController {
         CollectInfo collectInfo=booksService.findCollectInfo(seq);
 
         Long user_id=param.get("user_id");
+
         User user = userService.findUser(user_id);
 
         BooksDto.CollectInfoUpdateRequestDto requestDto = new BooksDto.CollectInfoUpdateRequestDto() ;
         BeanUtils.copyProperties(collectInfo, requestDto);
 
+        Assert.notNull(user , "user must not be NULL");
+
         requestDto.setState(0);
+        requestDto.setReserveState(0);
         requestDto.setUser(user); //빌린 사람
         requestDto.setLoanDate(LocalDate.now());//대출날짜 // 컴퓨터의 현재 날짜 정보 2018-07-26
         requestDto.setReturnDate(LocalDate.now().plusDays(14)); // 반납일 2주 뒤
@@ -138,7 +142,7 @@ public class BooksApiController {
     @GetMapping("/book/category")
     @ResponseBody
     public Map<String, Object> categoryList(){
-        List<Category> categoryList = booksService.findCategoryList();
+        List<Category> categoryList = categoryRepository.findAll();
 
         Map<String, Object> map = new HashMap<>();
 

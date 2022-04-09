@@ -34,7 +34,7 @@ public class NoticeApiController {
     }
 
 
-    // 공지사항을 눌렀을 때 보이는 상세조회
+    // 공지사항을 눌렀을 때 보이는 상세조회 (이 때, 해당 게시글이 조회수 업데이트 )
     @GetMapping("/notice/detail")
     @ResponseBody
     public Map<String, Object> searchNotice(@RequestBody HashMap<String, Long> param){
@@ -60,7 +60,36 @@ public class NoticeApiController {
         return userService.searchAllDesc();
     }
 
+    // 게시판 수정
+    @PutMapping("/notice/update")
+    @ResponseBody
+    public Long noticeUpdate(@RequestBody UserDto.NoticeUpdateRequestDto noticeUpdateRequestDto)
+    {
+        /*
+        front에서 받아야 할 정보 : 로그인 되어있는 user의 email, 수정하려는 게시글 id
+        수정되어야 할 정보 : 제목, 내용 ( 임시)
+        형식 :
+        { email : '***********',
+          id : x,
+          title : '****',
+          content : '****'
+          }
+         */
+
+        // 현재 로그인되어 있는 유저 email -> seq로 변환 ( Notice table에서 비교를 위해)
+        // 이메일 정보에 해당하는 유저 db 조회 ( 작성자 이외의 사람이 수정을 하게하면 안된다. )
+        // 로그인 정보 일치 -> 업데이트,
+        // 정보 불일치 -> 예외처리
+        // 다음과 같은 정보를 service에 구현했음
+        return userService.update(noticeUpdateRequestDto.getId(), noticeUpdateRequestDto);
+    }
 
 
-
+    // 게시판 삭제
+    @PutMapping("/notice/delete")
+    @ResponseBody
+    public void noticeDelete(@RequestBody UserDto.NoticeDeleteRequestDto noticeDeleteRequestDto)
+    {
+        userService.delete(noticeDeleteRequestDto.getId(), noticeDeleteRequestDto);
+    }
 }

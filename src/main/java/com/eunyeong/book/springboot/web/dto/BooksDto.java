@@ -47,7 +47,7 @@ public class BooksDto {
             this.sign = entity.getSign();
             this.publish = entity.getPublish();
             this.shape = entity.getShape();
-            this.collectInfoList = entity.getCollectInfoList();
+            this.collectInfoList = entity.getCollectInfoListForBooks();
         }
     }
 
