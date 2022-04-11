@@ -42,6 +42,8 @@ public class UserApiController {
             userUpdateRequestDto.setAccessToken(userDto.getAccessToken());
 
             userService.update(userDto.getUserInfo().getId() , userUpdateRequestDto);
+
+            // 기존 계정이 있다면 200 ok 반환
             return ResponseEntity.status(HttpStatus.OK);
 
         }
