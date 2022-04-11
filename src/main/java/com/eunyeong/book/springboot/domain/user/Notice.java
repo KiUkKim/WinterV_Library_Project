@@ -38,4 +38,6 @@ public class Notice extends BaseTimeEntity {
         this.view_count = view_count;
         this.user = user;
     }
+
+    // Test
 }
