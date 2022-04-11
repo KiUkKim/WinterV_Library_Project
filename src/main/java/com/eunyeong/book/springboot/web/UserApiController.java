@@ -43,7 +43,7 @@ public class UserApiController {
 
             userService.update(userDto.getUserInfo().getId() , userUpdateRequestDto);
 
-            // 기존 계정이 있다면 200 ok 반환
+            // 기존 계정이 있다면 200 ok 반환 , 테스트
             return ResponseEntity.status(HttpStatus.OK);
 
         }
