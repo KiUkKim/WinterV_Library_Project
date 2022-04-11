@@ -45,6 +45,7 @@ public class UserApiController {
             return ResponseEntity.status(HttpStatus.OK);
 
         }
+
         else // 유저 정보가 담겨있지 않다면, 유저 정보 db에 저장
         {
             userService.save(userDto);
