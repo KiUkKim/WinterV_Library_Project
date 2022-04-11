@@ -5,6 +5,8 @@ import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,15 +42,16 @@ public class UserApiController {
             userUpdateRequestDto.setAccessToken(userDto.getAccessToken());
 
             userService.update(userDto.getUserInfo().getId() , userUpdateRequestDto);
+            return ResponseEntity.status(HttpStatus.OK);
+
         }
         else // 유저 정보가 담겨있지 않다면, 유저 정보 db에 저장
         {
             userService.save(userDto);
+            UserDto.UserdDto user = new UserDto.UserdDto(userDto.getAccessToken(), userDto.getUserInfo());
+            return user;
         }
-        
 
-        UserDto.UserdDto user = new UserDto.UserdDto(userDto.getAccessToken(), userDto.getUserInfo());
-        return user;
     }
 
     /*
