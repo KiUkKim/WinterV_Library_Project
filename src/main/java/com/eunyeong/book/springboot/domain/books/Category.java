@@ -12,23 +12,30 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="categories")
+@Table(name="libraries")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
-    private String collectLocation;
+    private String library_name;
+
+//    @Column
+//    private String operatingHours;
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "collectLocation", orphanRemoval = true)
     private List<CollectInfo> collectInfoList = new ArrayList<>();
 
-    @Builder
-    public Category(String collectLocation, List<CollectInfo> collectInfoList){
-        this.collectLocation=collectLocation;
-        this.collectInfoList=collectInfoList;
-    }
+//    @JsonManagedReference
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "readingRooms", orphanRemoval = true)
+//    private List<ReadingRoom> readingRoomList = new ArrayList<ReadingRoom>();
 
+    @Builder
+    public Category(String library_name, List<CollectInfo> collectInfoList){
+        this.library_name=library_name;
+        this.collectInfoList=collectInfoList;
+//        this.readingRoomList = readingRoomList;
+    }
 }

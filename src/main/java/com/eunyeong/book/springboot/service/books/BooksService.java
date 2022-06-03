@@ -3,26 +3,15 @@ package com.eunyeong.book.springboot.service.books;
 import com.eunyeong.book.springboot.domain.books.*;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.domain.user.UserRepository;
-import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.BooksDto;
-import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.testng.AssertJUnit.assertNull;
 
 @RequiredArgsConstructor
 @Service
@@ -113,7 +102,7 @@ public class BooksService {
     }
 
     /**
-     * 해당 책의 카테고리별 collectInfo 가져오기
+     * 해당 책의 카테고리별 collectInfo 가져오기  !!!!!!!!!!!!!!!!!!!Dto 수정하고 이것도 수정
      */
     @Transactional
     public List<CollectInfo> findByCategoryId(Long bookId, Long categoryId) {
@@ -200,4 +189,6 @@ public class BooksService {
     {
         return reserveRepository.findReserveByIdOrderByUserIdDesc(user_id);
     }
+
+
 }

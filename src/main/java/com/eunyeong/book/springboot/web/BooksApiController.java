@@ -6,18 +6,14 @@ import com.eunyeong.book.springboot.domain.books.CollectInfo;
 import com.eunyeong.book.springboot.domain.books.Reserve;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.service.books.BooksService;
-
 import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.BooksDto;
-import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +72,7 @@ public class BooksApiController {
     }
 
     /**
-     * 도서 검색(title로 검색)
+     * 상세정보조회
      */
     @GetMapping("/book/detail")
     @ResponseBody
@@ -173,7 +169,7 @@ public class BooksApiController {
 
         Map<String, Object> map = new HashMap<>();
 
-        map.put("categoryList", categoryList.stream().collect(Collectors.toMap(Category::getId, Category::getCollectLocation)));
+        map.put("categoryList", categoryList.stream().collect(Collectors.toMap(Category::getId, Category::getLibrary_name)));
 
         return map;
     }
