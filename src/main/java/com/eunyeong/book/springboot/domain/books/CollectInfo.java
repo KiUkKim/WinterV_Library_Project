@@ -2,15 +2,12 @@ package com.eunyeong.book.springboot.domain.books;
 
 import com.eunyeong.book.springboot.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -23,7 +20,7 @@ public class CollectInfo {
     @JsonBackReference
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="collect_location")
-    private Category collectLocation;
+    private Library collectLocation;
 
     @Column
     private String callNumber;
@@ -62,7 +59,7 @@ public class CollectInfo {
 
 
     @Builder
-    public CollectInfo(Books book, Category collectLocation, String callNumber, String enrollNum, Integer state, LocalDate returnDate, LocalDate loanDate, Integer extensionCount, Integer reserveState,User user){
+    public CollectInfo(Books book, Library collectLocation, String callNumber, String enrollNum, Integer state, LocalDate returnDate, LocalDate loanDate, Integer extensionCount, Integer reserveState, User user){
         this.book = book;
         this.collectLocation = collectLocation;
         this.callNumber = callNumber;

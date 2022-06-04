@@ -1,24 +1,18 @@
 package com.eunyeong.book.springboot.web.dto;
 
 import com.eunyeong.book.springboot.domain.books.Books;
-import com.eunyeong.book.springboot.domain.books.Category;
+import com.eunyeong.book.springboot.domain.books.Library;
 import com.eunyeong.book.springboot.domain.books.CollectInfo;
 import com.eunyeong.book.springboot.domain.books.Reserve;
-import com.eunyeong.book.springboot.domain.user.Notice;
 import com.eunyeong.book.springboot.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.tomcat.jni.Local;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 // 중요 : Dto 통합관련 설명 각 클래스에 static 키워드를 사용하는 이유
 // static을 사용하든 사용하지 않든 어떤 방식을 사용하여도 문제가 없으나.
@@ -150,7 +144,7 @@ public class BooksDto {
         private User user;
         private Integer extensionCount;
         private Books book;
-        private Category collectLocation;
+        private Library collectLocation;
         private String callNumber;
         private String enrollNum;
         private Integer state;
@@ -159,7 +153,7 @@ public class BooksDto {
 
 
         @Builder
-        public CollectInfoSaveRequestDto(Books book, Category collectLocation, String callNumber, String enrollNum, Integer state, LocalDate returnDate, LocalDate loanDate, Integer extensionCount, Integer reserveState, User user) {
+        public CollectInfoSaveRequestDto(Books book, Library collectLocation, String callNumber, String enrollNum, Integer state, LocalDate returnDate, LocalDate loanDate, Integer extensionCount, Integer reserveState, User user) {
             this.book = book;
             this.collectLocation = collectLocation;
             this.callNumber = callNumber;

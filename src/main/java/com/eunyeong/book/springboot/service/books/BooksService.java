@@ -20,7 +20,7 @@ public class BooksService {
 
     private final CollectInfoRepository collectInfoRepository;
 
-    private final CategoryRepository categoryRepository;
+    private final LibraryRepository libraryRepository;
 
     private final ReserveRepository reserveRepository;
 
@@ -58,14 +58,14 @@ public class BooksService {
     }
 
     @Transactional
-    public Category findCategory(Long id) {
-        return categoryRepository.findCategoryInfoById(id);
+    public Library findLibrary(Long id) {
+        return libraryRepository.findLibraryInfoById(id);
     }
 
 
     @Transactional
-    public List<Category> findCategoryList() {
-        return categoryRepository.findAll();
+    public List<Library> findCategoryList() {
+        return libraryRepository.findAll();
     }
 
     @Transactional

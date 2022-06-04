@@ -1,7 +1,7 @@
 package com.eunyeong.book.springboot.web;
 
 import com.eunyeong.book.springboot.domain.books.Books;
-import com.eunyeong.book.springboot.domain.books.Category;
+import com.eunyeong.book.springboot.domain.books.Library;
 import com.eunyeong.book.springboot.domain.books.CollectInfo;
 import com.eunyeong.book.springboot.domain.books.Reserve;
 import com.eunyeong.book.springboot.domain.user.User;
@@ -42,7 +42,7 @@ public class BooksApiController {
     @ResponseBody
     public Long collectInfoSave(@RequestBody BooksDto.CollectInfoListResponseDto collectInfoListResponseDto) {
         Books book = booksService.findBooks(collectInfoListResponseDto.getBook());
-        Category collectLocation = booksService.findCategory(collectInfoListResponseDto.getCollectLocation());
+        Library collectLocation = booksService.findLibrary(collectInfoListResponseDto.getCollectLocation());
 
         BooksDto.CollectInfoSaveRequestDto collectInfoSaveRequestDto = new BooksDto.CollectInfoSaveRequestDto();
 
@@ -165,11 +165,11 @@ public class BooksApiController {
     @GetMapping("/book/category")
     @ResponseBody
     public Map<String, Object> categoryList() {
-        List<Category> categoryList = booksService.findCategoryList();
+        List<Library> categoryList = booksService.findCategoryList();
 
         Map<String, Object> map = new HashMap<>();
 
-        map.put("categoryList", categoryList.stream().collect(Collectors.toMap(Category::getId, Category::getLibrary_name)));
+        map.put("categoryList", categoryList.stream().collect(Collectors.toMap(Library::getId, Library::getLibrary_name)));
 
         return map;
     }
