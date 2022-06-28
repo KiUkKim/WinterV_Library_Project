@@ -34,12 +34,24 @@ public class User extends BaseTimeEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<CollectInfo> collectInfoListForUser = new ArrayList<>();
 
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<Community> communityList = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<Comments> commentsList = new ArrayList<>();
+
+
+
     @Builder
-    public User(String accessToken, UserInfo userInfo, List<Notice> noticeList, List<CollectInfo> collectInfoList){
+    public User(String accessToken, UserInfo userInfo, List<Notice> noticeList, List<CollectInfo> collectInfoList, List<Community> communityList, List<Comments> commentsList){
         this.accessToken = accessToken;
         this.userInfo = userInfo;
         this.noticeList = noticeList;
         this.collectInfoListForUser = collectInfoList;
+        this.communityList = communityList;
+        this.commentsList = commentsList;
     }
 
     public void accessTokenUpdate(String accessToken)

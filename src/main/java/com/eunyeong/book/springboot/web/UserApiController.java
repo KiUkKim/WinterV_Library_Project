@@ -1,5 +1,6 @@
 package com.eunyeong.book.springboot.web;
 
+import com.eunyeong.book.springboot.domain.ErrorMessage.errorMessage;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.UserDto;
@@ -43,18 +44,40 @@ public class UserApiController {
 
             userService.update(userDto.getUserInfo().getId() , userUpdateRequestDto);
 
+            errorMessage errormessage = errorMessage.builder()
+                    .status("201").user(user).build();
+
             // 기존 계정이 있다면 200 ok 반환
-            return ResponseEntity.status(HttpStatus.OK);
+            return new ResponseEntity<>(errormessage, HttpStatus.OK);
 
         }
+
+//        else // 유저 정보가 담겨있지 않다면, 유저 정보 db에 저장
+//        {
+//            userService.save(userDto);
+//            UserDto.UserdDto user = new UserDto.UserdDto(userDto.getAccessToken(), userDto.getUserInfo());
+//
+//            return user;
+//        }
 
         else // 유저 정보가 담겨있지 않다면, 유저 정보 db에 저장
         {
             userService.save(userDto);
-            UserDto.UserdDto user = new UserDto.UserdDto(userDto.getAccessToken(), userDto.getUserInfo());
-            return user;
+
+            User user = userService.findUserInfo(userDto.getUserInfo().getId());
+
+//            UserDto.UserdDto user = new UserDto.UserdDto(userDto.getAccessToken(), userDto.getUserInfo());
+
+            errorMessage errormessage = errorMessage.builder()
+                    .status("200").user(user).build();
+
+            return new ResponseEntity<>(errormessage, HttpStatus.OK);
+
+//            return new ResponseEntity<User> (user, HttpStatus.OK);
         }
 
+//        UserDto.UserdDto user = new UserDto.UserdDto(userDto.getAccessToken(), userDto.getUserInfo());
+//        return user;
     }
 
     /*
@@ -68,7 +91,6 @@ public class UserApiController {
     }
 
 
-
     /*
     특정 유저 조회 (email로 조회)
      */
@@ -79,5 +101,6 @@ public class UserApiController {
 
         return userService.searchUserByEmail(email);
     }
+
 
 }

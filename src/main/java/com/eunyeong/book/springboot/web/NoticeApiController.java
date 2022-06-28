@@ -6,6 +6,7 @@ import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,10 +27,10 @@ public class NoticeApiController {
 
         // 변환받은 id로 해당 유저에 대한 notice 등록
         User user = userService.findNotice(seq);
-
         UserDto.NoticeSaveRequestDto noticeSaveRequestDto = new UserDto.NoticeSaveRequestDto();
         noticeSaveRequestDto.setUser(user);
         BeanUtils.copyProperties(noticeResponseDto, noticeSaveRequestDto);
+
         return userService.saveNotice(noticeSaveRequestDto);
     }
 
@@ -49,6 +50,9 @@ public class NoticeApiController {
         Map<String, Object> map = new HashMap<>();
 
         map.put("noticeDetail", userService.searchUserNotice(user_id));
+
+        // Bean Null Check point
+        Assert.notNull(map, "map must not be NULL");
 
         return map;
     }

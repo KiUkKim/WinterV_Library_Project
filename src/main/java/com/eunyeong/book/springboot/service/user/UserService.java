@@ -1,13 +1,8 @@
 package com.eunyeong.book.springboot.service.user;
 
-import com.eunyeong.book.springboot.domain.books.Books;
-import com.eunyeong.book.springboot.domain.user.Notice;
-import com.eunyeong.book.springboot.domain.user.NoticeRepository;
-import com.eunyeong.book.springboot.domain.user.User;
-import com.eunyeong.book.springboot.domain.user.UserRepository;
+import com.eunyeong.book.springboot.domain.user.*;
 import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +13,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-    @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
     private final NoticeRepository noticeRepository;
+
+    private final CommunityRepository communityRepository;
 
     @Transactional
     public Long save(UserDto.UserdDto userDto)
@@ -80,7 +75,10 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////
     //////////////////// NOTICE 관련 Transactional 공간 //////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 
     // 전달받은 이메일을 통해서 db에 해당 유저의 id 반환
     @Transactional
@@ -91,6 +89,8 @@ public class UserService {
         return seq;
     }
 
+
+    // 해당 seq로 User객체 찾아오기
     @Transactional
     public User findNotice(Long seq)
     {
@@ -184,5 +184,63 @@ public class UserService {
 
         noticeRepository.deleteNotice(id);
     }
+
+
+////////////////////////////////////////////////////////////////////////////
+    ////////////////////// Community 관련 //////////////////////////////
+    /*
+    게시글 저장 관련 Service
+     */
+
+    @Transactional
+    public Long saveCommunity(UserDto.CommunitySaveDto communitySaveDto)
+    {
+        return communityRepository.save(communitySaveDto.toEntity()).getId();
+    }
+
+
+    /*
+    게시글 업데이트 관련 Service
+    front 에 현재 접속되어 있는 유저와, Community Table에 저장되어 있는 유저를 비교
+     */
+
+    @Transactional
+    public Long communityUpdate(Long id, UserDto.CommunityUpdateDto communityUpdateDto)
+    {
+        // 해당 ID에 해당하는 게시물 찾기
+        Community community = communityRepository.findCommunityById(id);
+
+        Long seq = communityRepository.userIDoFCommunity(communityUpdateDto.getEmail());
+
+        int check = communityRepository.TureOrFalseInCommunity(seq, id);
+
+        if(check < 1)
+        {
+            throw new RuntimeException("게시물의 작성자가 아닙니다.");
+        }
+
+        community.update(communityUpdateDto.getTitle(), communityUpdateDto.getContent());
+        return id;
+    }
+
+
+    /*
+    Delete 관련
+     */
+    @Transactional
+    public void deleteCommunity(Long id, UserDto.CommunityDeleteDto communityDeleteDto)
+    {
+        Long seq = communityRepository.userIDoFCommunity(communityDeleteDto.getEmail());
+
+        int check = communityRepository.TureOrFalseInCommunity(seq, id);
+
+        if(check < 1)
+        {
+            throw new RuntimeException("게시물의 작성자가 아닙니다.");
+        }
+
+        communityRepository.deleteCommunityById(id);
+    }
+
 
 }
