@@ -1,6 +1,6 @@
 package com.eunyeong.book.springboot.domain.facility;
 
-import com.eunyeong.book.springboot.domain.books.Library;
+import com.eunyeong.book.springboot.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,11 @@ public class Seats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="SEAT_ID")
     private Long pk;
+
+    @Column
+    private LocalDateTime startT; // 좌석 배정 시간(현재시간)
 
     @Column
     private LocalTime useT; //4시간, 사용시간
@@ -32,17 +36,33 @@ public class Seats {
     @Column
     private LocalDateTime assignmentT; //16:46까지, 배정시간(현재시간+사용시간)
 
+
+//    @JsonBackReference
+//    @ManyToOne(targetEntity= Library.class, fetch=FetchType.EAGER)
+//    @JoinColumn(name="READINGROOM_ID")
+//    private ReadingRoom readingRoom;
+
     @JsonBackReference
-    @ManyToOne(targetEntity= Library.class, fetch=FetchType.EAGER)
-    @JoinColumn(name="readingRoom")
-    private ReadingRoom readingRoom;
+    @OneToOne(targetEntity= User.class, fetch=FetchType.EAGER)
+    @JoinColumn(name="user")
+    private User user;
 
     @Builder
-    public Seats(LocalTime useT, LocalTime maxT, LocalDateTime checkT, LocalDateTime assignmentT, ReadingRoom readingRoom){
+    public Seats(LocalDateTime startT, LocalTime useT, LocalTime maxT, LocalDateTime checkT, LocalDateTime assignmentT,  User user){
+        this.startT=startT;
         this.useT=useT;
         this.maxT=maxT;
         this.checkT=checkT;
         this.assignmentT=assignmentT;
-        this.readingRoom=readingRoom;
+        this.user=user;
+//        this.readingRoom=readingRoom;
+    }
+
+    public void update(LocalDateTime startT, LocalTime useT, LocalDateTime checkT, LocalDateTime assignmentT, User user){
+        this.startT=startT;
+        this.useT = useT;
+        this.checkT = checkT;
+        this.assignmentT=assignmentT;
+        this.user=user;
     }
 }

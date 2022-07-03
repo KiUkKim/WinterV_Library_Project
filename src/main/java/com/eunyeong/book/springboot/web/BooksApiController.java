@@ -76,7 +76,7 @@ public class BooksApiController {
      */
     @GetMapping("/book/detail")
     @ResponseBody
-    public Map<String, Object> searchDetail(@RequestBody HashMap<String, Object> param) {
+    public Map<String, Object> bookDetail(@RequestBody HashMap<String, Object> param) {
 
         String title = param.get("title").toString();
 
@@ -231,7 +231,7 @@ public class BooksApiController {
     /**
      * 예약 현황 조회
      */
-    @GetMapping("/book/reserve/status")
+    @GetMapping("/book/reserve/state")
     @ResponseBody
     public List<Reserve> ReserveAllList(@RequestBody HashMap<String, Long> param){
         Long user_id = param.get("user_id");

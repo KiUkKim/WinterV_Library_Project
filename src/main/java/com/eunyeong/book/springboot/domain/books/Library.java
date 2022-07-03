@@ -17,6 +17,7 @@ import java.util.List;
 public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="LIBRARY_ID")
     private Long id;
 
     @Column(unique = true)
@@ -34,9 +35,9 @@ public class Library {
     private List<ReadingRoom> readingRoomList = new ArrayList<>();
 
     @Builder
-    public Library(String library_name, List<CollectInfo> collectInfoList){
+    public Library(String library_name, List<CollectInfo> collectInfoList, List<ReadingRoom> readingRoomList){
         this.library_name=library_name;
         this.collectInfoList=collectInfoList;
-//        this.readingRoomList = readingRoomList;
+        this.readingRoomList = readingRoomList;
     }
 }

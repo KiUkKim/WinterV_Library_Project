@@ -3,6 +3,7 @@ package com.eunyeong.book.springboot.domain.user;
 import com.eunyeong.book.springboot.domain.BaseTimeEntity;
 import com.eunyeong.book.springboot.domain.books.CollectInfo;
 import com.eunyeong.book.springboot.domain.books.Reserve;
+import com.eunyeong.book.springboot.domain.facility.Seats;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,12 +41,17 @@ public class User extends BaseTimeEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<Reserve> reserveList = new ArrayList<>();
 
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private Seats seat;
+
     @Builder
-    public User(String accessToken, UserInfo userInfo, List<Notice> noticeList, List<Reserve> reserveList){
+    public User(String accessToken, UserInfo userInfo, List<Notice> noticeList, List<Reserve> reserveList, Seats seat){
         this.accessToken = accessToken;
         this.userInfo = userInfo;
         this.noticeList = noticeList;
         this.reserveList = reserveList;
+        this.seat=seat;
     }
 
     public void accessTokenUpdate(String accessToken)

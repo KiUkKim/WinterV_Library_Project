@@ -2,14 +2,11 @@ package com.eunyeong.book.springboot.domain.facility;
 
 import com.eunyeong.book.springboot.domain.books.Library;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -18,11 +15,12 @@ import java.util.List;
 public class ReadingRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="READINGROOM_ID")
     private Long id;
 
     @JsonBackReference
     @ManyToOne(targetEntity= Library.class, fetch=FetchType.EAGER)
-    @JoinColumn(name="library_name")
+    @JoinColumn(name="library")
     private Library library;
 
     @Column
@@ -40,19 +38,19 @@ public class ReadingRoom {
     @Column
     private Integer utilizationRate;
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "readingRoom", orphanRemoval = true)
-    private List<Seats> seatsList = new ArrayList<>();
+//    @JsonManagedReference
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "readingRoom", orphanRemoval = true)
+//    private List<Seats> seatsList = new ArrayList<>();
 
     @Builder
-    public ReadingRoom(Library library, String readingRoom_name, Integer totalNum, Integer useNum, Integer availableNum, Integer utilizationRate, List<Seats> seatsList){
+    public ReadingRoom(Library library, String readingRoom_name, Integer totalNum, Integer useNum, Integer availableNum, Integer utilizationRate){
         this.library=library;
         this.readingRoom_name=readingRoom_name;
         this.totalNum=totalNum;
         this.useNum=useNum;
         this.availableNum=availableNum;
         this.utilizationRate=utilizationRate;
-        this.seatsList = seatsList;
+//        this.seatsList = seatsList;
     }
 
 }
