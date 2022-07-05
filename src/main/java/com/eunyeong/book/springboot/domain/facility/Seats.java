@@ -36,11 +36,10 @@ public class Seats {
     @Column
     private LocalDateTime assignmentT; //16:46까지, 배정시간(현재시간+사용시간)
 
-
-//    @JsonBackReference
-//    @ManyToOne(targetEntity= Library.class, fetch=FetchType.EAGER)
-//    @JoinColumn(name="READINGROOM_ID")
-//    private ReadingRoom readingRoom;
+    @JsonBackReference
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="READINGROOM_ID")
+    private ReadingRoom readingRoom;
 
     @JsonBackReference
     @OneToOne(targetEntity= User.class, fetch=FetchType.EAGER)
@@ -48,14 +47,14 @@ public class Seats {
     private User user;
 
     @Builder
-    public Seats(LocalDateTime startT, LocalTime useT, LocalTime maxT, LocalDateTime checkT, LocalDateTime assignmentT,  User user){
+    public Seats(LocalDateTime startT, LocalTime useT, LocalTime maxT, LocalDateTime checkT, LocalDateTime assignmentT,  User user, ReadingRoom readingRoom){
         this.startT=startT;
         this.useT=useT;
         this.maxT=maxT;
         this.checkT=checkT;
         this.assignmentT=assignmentT;
         this.user=user;
-//        this.readingRoom=readingRoom;
+        this.readingRoom=readingRoom;
     }
 
     public void update(LocalDateTime startT, LocalTime useT, LocalDateTime checkT, LocalDateTime assignmentT, User user){
