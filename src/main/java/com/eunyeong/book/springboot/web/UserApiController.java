@@ -47,8 +47,8 @@ public class UserApiController {
             errorMessage errormessage = errorMessage.builder()
                     .status("201").user(user).build();
 
-            // 기존 계정이 있다면 200 ok 반환
-            return new ResponseEntity<>(errormessage, HttpStatus.OK);
+            // 기존 계정이 있다면 201 ok 반환
+            return new ResponseEntity<>(errormessage, HttpStatus.CREATED);
 
         }
 

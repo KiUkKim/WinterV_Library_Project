@@ -2,6 +2,8 @@ package com.eunyeong.book.springboot.domain.user;
 
 import com.eunyeong.book.springboot.domain.BaseTimeEntity;
 import com.eunyeong.book.springboot.domain.books.CollectInfo;
+import com.eunyeong.book.springboot.domain.books.Reserve;
+import com.eunyeong.book.springboot.domain.facility.Seats;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +34,16 @@ public class User extends BaseTimeEntity {
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    private List<CollectInfo> collectInfoListForUser = new ArrayList<>();
+    private List<CollectInfo> collectInfoList = new ArrayList<>();
+
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<Reserve> reserveList = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private Seats seat;
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
@@ -45,11 +56,12 @@ public class User extends BaseTimeEntity {
 
 
     @Builder
-    public User(String accessToken, UserInfo userInfo, List<Notice> noticeList, List<CollectInfo> collectInfoList, List<Community> communityList, List<Comments> commentsList){
+    public User(String accessToken, UserInfo userInfo, List<Notice> noticeList, List<Reserve> reserveList, Seats seat, List<Community> communityList, List<Comments> commentsList){
         this.accessToken = accessToken;
         this.userInfo = userInfo;
         this.noticeList = noticeList;
-        this.collectInfoListForUser = collectInfoList;
+        this.reserveList = reserveList;
+        this.seat = seat;
         this.communityList = communityList;
         this.commentsList = commentsList;
     }

@@ -5,6 +5,8 @@ import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +20,7 @@ public class UserService {
     private final NoticeRepository noticeRepository;
 
     private final CommunityRepository communityRepository;
+
 
     @Transactional
     public Long save(UserDto.UserdDto userDto)
@@ -42,7 +45,7 @@ public class UserService {
 
     @Transactional
     public User findUser(Long user_id) {
-        return userRepository.findUserByid(user_id);
+        return userRepository.findUserById(user_id);
     }
 
     @Transactional
@@ -116,8 +119,8 @@ public class UserService {
 
     // Notice에서 필요한 정보 출력 ( User와 연결되어서 해당되는 모든 정보 들고옴 -> 나중에 필요할 수도 있어서 남겨둠. )
     @Transactional
-    public List<UserDto.NoticeListResponseDto> searchUserNotice(Long user_id){
-        return noticeRepository.findNoticeById(user_id).stream()
+    public List<UserDto.NoticeListResponseDto> searchUserNotice(Long user_id, Long id){
+        return noticeRepository.findNoticeById(user_id, id).stream()
                 .map(UserDto.NoticeListResponseDto::new)
                 .collect(Collectors.toList());
     }
@@ -188,6 +191,51 @@ public class UserService {
 
 ////////////////////////////////////////////////////////////////////////////
     ////////////////////// Community 관련 //////////////////////////////
+
+    /*
+    community 전체 조회 관련 Transactional
+     */
+    // Community 전체 출력
+    @Transactional
+    public List<UserDto.CommunityListResponseDto> searchAllDescCommunity()
+    {
+        return communityRepository.findCommunityByIdOrderDesc().stream()
+                .map(UserDto.CommunityListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
+    //////////////////// 커뮤니티 조회 /////////////////
+
+    /*
+    Community Table User seq 찾기
+     */
+    public Long communityUser(Long id)
+    {
+        return communityRepository.findCommunityUser(id);
+    }
+
+    /*
+    Community update view
+     */
+    // Community 조회수 증가
+    @Transactional
+    public int updateCommunityView(Long id)
+    {
+        return communityRepository.updateCommunityView(id);
+    }
+
+    // Community에서 필요한 정보 출력 ( User와 연결되어서 해당되는 모든 정보 들고옴 -> 나중에 필요할 수도 있어서 남겨둠. )
+    @Transactional
+    public List<UserDto.CommunityListResponseDto> searchUserCommunity(Long user_id, Long id){
+        return communityRepository.findCommunityDetail(user_id, id).stream()
+                .map(UserDto.CommunityListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
+
+    /////////////////// 커뮤니티 저장 /////////////////
     /*
     게시글 저장 관련 Service
      */
@@ -212,11 +260,14 @@ public class UserService {
 
         Long seq = communityRepository.userIDoFCommunity(communityUpdateDto.getEmail());
 
+        // Null Check Point
+//        Assert.notNull(seq, "Seq must not be null");
+
         int check = communityRepository.TureOrFalseInCommunity(seq, id);
 
         if(check < 1)
         {
-            throw new RuntimeException("게시물의 작성자가 아닙니다.");
+            throw new RuntimeException(communityUpdateDto.getTitle() + " 게시물의 작성자가 아닙니다.");
         }
 
         community.update(communityUpdateDto.getTitle(), communityUpdateDto.getContent());
@@ -241,6 +292,7 @@ public class UserService {
 
         communityRepository.deleteCommunityById(id);
     }
+
 
 
 }

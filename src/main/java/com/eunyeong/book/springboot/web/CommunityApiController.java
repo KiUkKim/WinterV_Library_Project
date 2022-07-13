@@ -5,9 +5,11 @@ import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class CommunityApiController {
     // 커뮤니티 게시글 수정
     @PutMapping("/community/update")
     @ResponseBody
-    public Long CommunityUpdate(UserDto.CommunityUpdateDto communityUpdateDto)
+    public Long CommunityUpdate(@RequestBody UserDto.CommunityUpdateDto communityUpdateDto)
     {
         return userService.communityUpdate(communityUpdateDto.getId(), communityUpdateDto);
     }
@@ -54,6 +56,40 @@ public class CommunityApiController {
     public void noticeDelete(@RequestBody UserDto.CommunityDeleteDto communityDeleteDto)
     {
         userService.deleteCommunity(communityDeleteDto.getId(), communityDeleteDto);
+    }
+
+
+    // 커뮤니티 전체 조회
+    @GetMapping("/community")
+    @ResponseBody
+    public List<UserDto.CommunityListResponseDto> CommunityAllList() {return userService.searchAllDescCommunity();}
+
+
+    // 커뮤니티 특정 게시글 조회 ( 게시글 눌렀을 때 보이는 정보 )
+    @GetMapping("/community/detail")
+    @ResponseBody
+    public Map<String, Object> searchCommunity(@RequestBody HashMap<String, Long> param)
+    {
+        Long id = param.get("id");
+
+        // ID Bean Null check
+        Assert.notNull(id, "id must not be NULL");
+
+        // 조회 시, 카운팅
+        userService.updateCommunityView(id);
+
+        // Community에 등록한 유저 찾기 위함
+        Long user_id = userService.communityUser(id);
+
+        Map<String, Object> map = new HashMap<>();
+
+
+        map.put("communityDetail", userService.searchUserCommunity(user_id, id));
+
+        //Bean null check
+        Assert.notNull(map, "map must not be NULL");
+
+        return map;
     }
 
 }

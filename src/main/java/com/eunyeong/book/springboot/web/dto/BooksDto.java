@@ -1,8 +1,9 @@
 package com.eunyeong.book.springboot.web.dto;
 
 import com.eunyeong.book.springboot.domain.books.Books;
-import com.eunyeong.book.springboot.domain.books.Category;
 import com.eunyeong.book.springboot.domain.books.CollectInfo;
+import com.eunyeong.book.springboot.domain.books.Library;
+import com.eunyeong.book.springboot.domain.books.Reserve;
 import com.eunyeong.book.springboot.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class BooksDto {
     // Book column 정보 받아오는 Dto
     @Getter
     @NoArgsConstructor
-    public static class BooksListResponseDto{
+    public static class BooksListResponseDto {
         private Long id;
         private String title;
         private String thumbnail;
@@ -47,14 +48,14 @@ public class BooksDto {
             this.sign = entity.getSign();
             this.publish = entity.getPublish();
             this.shape = entity.getShape();
-            this.collectInfoList = entity.getCollectInfoListForBooks();
+            this.collectInfoList = entity.getCollectInfoList();
         }
     }
 
-    @Getter
     @Setter
+    @Getter
     @NoArgsConstructor
-    public static class BooksSaveRequestDto{
+    public static class BooksSaveRequestDto {
         private Long id;
         private String title;
         private String thumbnail;
@@ -90,11 +91,10 @@ public class BooksDto {
     }
 
 
-
     ////////////////// collectInfo 관련 Dto ///////////////
     @Getter
     @NoArgsConstructor
-    public static class CollectInfoResponseDto{
+    public static class CollectInfoResponseDto {
         private Long book;
         private String collectLocation;
         private String callNumber;
@@ -105,6 +105,7 @@ public class BooksDto {
     }
 
     @Getter
+    @Setter
     @NoArgsConstructor
     public static class CollectInfoListResponseDto {
         private Long book;
@@ -127,9 +128,9 @@ public class BooksDto {
             this.state = entity.getState();
             this.returnDate = entity.getReturnDate();
             this.reserveState = entity.getReserveState();
-            this.loanDate= entity.getLoanDate();
-            this.extensionCount= entity.getExtensionCount();
-            this.user= entity.getUser().getSeq();
+            this.loanDate = entity.getLoanDate();
+            this.extensionCount = entity.getExtensionCount();
+            this.user = entity.getUser().getSeq();
             this.bookTitle = entity.getBook().getTitle();
         }
     }
@@ -143,7 +144,7 @@ public class BooksDto {
         private User user;
         private Integer extensionCount;
         private Books book;
-        private Category collectLocation;
+        private Library collectLocation;
         private String callNumber;
         private String enrollNum;
         private Integer state;
@@ -152,7 +153,7 @@ public class BooksDto {
 
 
         @Builder
-        public CollectInfoSaveRequestDto(Books book, Category collectLocation, String callNumber, String enrollNum, Integer state, LocalDate returnDate, LocalDate loanDate, Integer extensionCount, Integer reserveState, User user) {
+        public CollectInfoSaveRequestDto(Books book, Library collectLocation, String callNumber, String enrollNum, Integer state, LocalDate returnDate, LocalDate loanDate, Integer extensionCount, Integer reserveState, User user) {
             this.book = book;
             this.collectLocation = collectLocation;
             this.callNumber = callNumber;
@@ -187,23 +188,101 @@ public class BooksDto {
     @NoArgsConstructor
     public static class CollectInfoUpdateRequestDto {
 
-        private LocalDate loanDate;
-        private User user;
         //private String collectLocation;
         private Integer state;
+        private LocalDate loanDate;
         private LocalDate returnDate;
         private Integer reserveState;
         private Integer extensionCount;
+        private User user;
 
         @Builder
-        public CollectInfoUpdateRequestDto(Integer state, LocalDate returnDate, LocalDate loanDate, Integer reserveState, Integer extensionCount, User user){
+        public CollectInfoUpdateRequestDto(Integer state, LocalDate loanDate, LocalDate returnDate, Integer reserveState, Integer extensionCount, User user) {
             //this.collectLocation=collectLocation;
-            this.state=state;
-            this.returnDate=returnDate;
-            this.reserveState=reserveState;
-            this.extensionCount=extensionCount;
-            this.loanDate=loanDate;
-            this.user=user;
+            this.state = state;
+            this.loanDate = loanDate;
+            this.returnDate = returnDate;
+            this.reserveState = reserveState;
+            this.extensionCount = extensionCount;
+            this.user = user;
+        }
+    }
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CollectInfoUpdateLoanRequestDto {
+
+        private Integer reserveState;
+
+        @Builder
+        public CollectInfoUpdateLoanRequestDto(Integer reserveState) {
+            this.reserveState = reserveState;
+        }
+    }
+
+
+    ////////////////// reserve 관련 Dto ///////////////
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    public static class ReserveSaveRequestDto {
+        private Long seq;
+        private User user;
+        private CollectInfo collectInfo;
+        private LocalDate reserveDate;
+        private LocalDate arrivalNoticeDate;
+        private LocalDate loanWatingDate;
+        private Integer ranking;
+        private Integer state;
+        private Integer cancel;
+
+        @Builder
+        public ReserveSaveRequestDto(User user, CollectInfo collectInfo, LocalDate reserveDate, LocalDate arrivalNoticeDate, LocalDate loanWatingDate, Integer ranking, Integer state, Integer cancel) {
+            this.user = user;
+            this.collectInfo = collectInfo;
+            this.reserveDate = reserveDate;
+            this.arrivalNoticeDate = arrivalNoticeDate;
+            this.loanWatingDate = loanWatingDate;
+            this.ranking = ranking;
+            this.state = state;
+            this.cancel = cancel;
+        }
+
+        @NotNull
+        public Reserve toEntity() {
+            return Reserve.builder()
+                    .user(user)
+                    .collectInfo(collectInfo)
+                    .reserveDate(reserveDate)
+                    .arrivalNoticeDate(arrivalNoticeDate)
+                    .loanWatingDate(loanWatingDate)
+                    .ranking(ranking)
+                    .state(state)
+                    .cancel(cancel)
+                    .build();
+        }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class ReserveUpdateRequestDto {
+
+        private LocalDate arrivalNoticeDate;
+        private LocalDate loanWatingDate;
+        private Integer ranking;
+        private Integer state;
+        private Integer cancel;
+
+        @Builder
+        public ReserveUpdateRequestDto(LocalDate arrivalNoticeDate, LocalDate loanWatingDate, Integer ranking, Integer state, Integer cancel) {
+            this.arrivalNoticeDate = arrivalNoticeDate;
+            this.loanWatingDate = loanWatingDate;
+            this.ranking = ranking;
+            this.state = state;
+            this.cancel = cancel;
         }
     }
 

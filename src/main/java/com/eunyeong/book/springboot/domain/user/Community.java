@@ -2,11 +2,14 @@ package com.eunyeong.book.springboot.domain.user;
 
 import com.eunyeong.book.springboot.domain.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -36,10 +39,10 @@ public class Community extends BaseTimeEntity {
     @JoinColumn(name="user_id")
     private User user;
 
-//    // 댓글
-//    @JsonManagedReference
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "community", orphanRemoval = true)
-//    private List<Comments> commentsList = new ArrayList<>();
+    // 댓글
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "community", orphanRemoval = true)
+    private List<Comments> commentsList = new ArrayList<>();
 
 
     // 추가 해야 할 것 : comment -> 댓글 List

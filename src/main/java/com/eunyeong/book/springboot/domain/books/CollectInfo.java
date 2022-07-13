@@ -20,7 +20,7 @@ public class CollectInfo {
     @JsonBackReference
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="collect_location")
-    private Category collectLocation;
+    private Library collectLocation;
 
     @Column
     private String callNumber;
@@ -38,9 +38,12 @@ public class CollectInfo {
     private Integer reserveState;
 
     @JsonBackReference
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="book_id")
     private Books book;
+
+    @OneToOne(mappedBy = "collectInfo")
+    private Reserve reserve;
 
     //대출 관련 컬럼
     @Column
@@ -50,13 +53,13 @@ public class CollectInfo {
     private Integer extensionCount;
 
     @JsonBackReference
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user;
 
 
     @Builder
-    public CollectInfo(Books book, Category collectLocation, String callNumber, String enrollNum, Integer state, LocalDate returnDate, LocalDate loanDate, Integer extensionCount, Integer reserveState,User user){
+    public CollectInfo(Books book, Library collectLocation, String callNumber, String enrollNum, Integer state, LocalDate returnDate, LocalDate loanDate, Integer extensionCount, Integer reserveState, User user){
         this.book = book;
         this.collectLocation = collectLocation;
         this.callNumber = callNumber;
@@ -69,12 +72,14 @@ public class CollectInfo {
         this.user=user;
     }
 
-    public void update(Integer state, LocalDate returnDate, Integer reserveState, Integer extensionCount, User user){
+    public void update(Integer state, LocalDate loanDate, LocalDate returnDate, Integer reserveState, Integer extensionCount,  User user){
         //this.collectLocation = collectLocation;
         this.state = state;
+        this.loanDate = loanDate;
         this.returnDate = returnDate;
         this.reserveState = reserveState;
         this.extensionCount=extensionCount;
         this.user=user;
     }
+
 }

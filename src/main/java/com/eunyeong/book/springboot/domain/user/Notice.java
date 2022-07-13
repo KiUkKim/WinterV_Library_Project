@@ -27,7 +27,7 @@ public class Notice extends BaseTimeEntity {
 
     @JsonBackReference
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
 
     @Builder

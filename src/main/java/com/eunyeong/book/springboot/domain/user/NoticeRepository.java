@@ -26,8 +26,8 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     List<Notice> findNoticeByIdOrderByIdDesc();
 
     // Notice에서 해당하는 id에 대한 정보가져오기 ( List로 출력을 위함 )
-    @Query("SELECT n FROM Notice n WHERE n.id = :id")
-    List<Notice> findNoticeById(Long id);
+    @Query("SELECT n FROM Notice n WHERE n.user.seq = :user_id and n.id = :id")
+    List<Notice> findNoticeById(Long user_id, Long id);
 
     /*
     Update에서 사용되는 query sentence

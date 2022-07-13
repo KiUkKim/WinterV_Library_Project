@@ -199,7 +199,7 @@ public class UserDto {
     ///////////////////////////////////////////////////////////////
 
     /*
-    Notice Response (출력 관련 , Save할 떄도 사용 )
+    Community Response (출력 관련 , Save할 떄도 사용 )
      */
     @Getter
     @Setter
@@ -210,6 +210,41 @@ public class UserDto {
         private String content;
         private int view_count;
 
+    }
+
+
+    /*
+    Community List ( 조회 시, 활용 )
+
+     */
+    // Notice List
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CommunityListResponseDto{
+        // Community 영역
+        private Long id;
+        private LocalDateTime created_date;
+        private LocalDateTime modified_date;
+        private String content;
+        private String title;
+        private int view_count;
+
+        // User 영역
+        private String email;
+        private String given_name;
+
+        public CommunityListResponseDto(Community entity)
+        {
+            this.id = entity.getId();
+            this.created_date = entity.getCreatedDate();
+            this.modified_date = entity.getModifiedDate();
+            this.content = entity.getContent();
+            this.title = entity.getTitle();
+            this.view_count = entity.getView_count();
+            this.email = entity.getUser().getUserInfo().getEmail();
+            this.given_name = entity.getUser().getUserInfo().getGiven_name();
+        }
     }
 
 
@@ -270,9 +305,9 @@ public class UserDto {
         private Long id;
 
         @Builder
-        public void CommunityUpdateDto(String title, String email){
+        public void CommunityUpdateDto(String title, String content){
             this.title = title;
-            this.email = email;
+            this.content = content;
         }
     }
 
@@ -310,8 +345,11 @@ public class UserDto {
         // 댓글 작성자 받기 위함
         private String email;
 
-        // 해당 게시글의 댓글 등록을 위함
-        private Long id;
+        // 해당 게시글의 댓글 등록을 위함 [게시글 번호]
+        private Long board_id;
+
+        // 만약 대댓글이라면 댓글의 번호를 받기 위함
+        private Long cmt_id;
     }
 
     @Getter
@@ -327,24 +365,80 @@ public class UserDto {
         // Community 영역
         private Community community;
 
+        // 댓글인지 대댓글인지 확인
+        private int CommentDepth;
+
+        // 대댓글이라면 어느 댓글의 그룹인지
+        private Long CommentGroup;
+
         @Builder
-        public void CommentSaveDto(String content, User user, Community community)
+        public void CommentSaveDto(String content, User user, Community community, int CommentDepth, Long CommentGroup)
         {
             this.content = content;
             this.user = user;
             this.community = community;
+            this.CommentDepth = CommentDepth;
+            this.CommentGroup = CommentGroup;
         }
 
-        @NotNull
         public Comments toEntity()
         {
             return Comments.builder()
                     .content(content)
                     .user(user)
                     .community(community)
+                    .CommentDepth(CommentDepth)
+                    .CommentGroup(CommentGroup)
                     .build();
         }
     }
 
+        /*
+    Comments Delete 영역
+     */
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CommentsDeleteDto{
+        // 현재 로그인 되어 있는 유저와 비교
+        private String email;
+
+        // 삭제하려는 댓글 번호
+        private Long id;
+
+        // 삭제하려는 게시물 번호와 비교
+        private Long cit_id;
+
+        @Builder
+        public CommentsDeleteDto(String email, Long id, Long cit_id)
+        {
+            this.email = email;
+            this.id = id;
+            this.cit_id = cit_id;
+        }
+    }
+
+    /*
+    Comments Update 영역
+     */
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CommentsUpdateDto{
+        //comments Update영역
+        private String content;
+        private String email;
+
+        private Long cit_id;
+
+        private Long cmt_id;
+
+        @Builder
+        public void CommunityUpdateDto(String email){
+            this.email = email;
+        }
+    }
 
 }

@@ -27,6 +27,9 @@ public class NoticeApiController {
 
         // 변환받은 id로 해당 유저에 대한 notice 등록
         User user = userService.findNotice(seq);
+
+        Assert.notNull(user, "등록되어 있지 않은 유저는 게시물 작성이 불가능합니다.");
+
         UserDto.NoticeSaveRequestDto noticeSaveRequestDto = new UserDto.NoticeSaveRequestDto();
         noticeSaveRequestDto.setUser(user);
         BeanUtils.copyProperties(noticeResponseDto, noticeSaveRequestDto);
@@ -49,7 +52,7 @@ public class NoticeApiController {
 
         Map<String, Object> map = new HashMap<>();
 
-        map.put("noticeDetail", userService.searchUserNotice(user_id));
+        map.put("noticeDetail", userService.searchUserNotice(user_id, id));
 
         // Bean Null Check point
         Assert.notNull(map, "map must not be NULL");
