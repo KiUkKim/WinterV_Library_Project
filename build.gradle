@@ -29,6 +29,7 @@ repositories { // 각종 의존성(라이브러리)들을 어떤 원격 저장�
 dependencies {
     implementation 'org.testng:testng:7.5'
     implementation 'org.assertj:assertj-core:3.22.0'
+    implementation 'org.projectlombok:lombok:1.18.20'
 
 // 의존성 선언
     compile('org.springframework.boot:spring-boot-starter-web') // 버전 명시 x
