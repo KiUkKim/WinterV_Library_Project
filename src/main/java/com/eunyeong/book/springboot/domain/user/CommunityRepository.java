@@ -54,4 +54,7 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
     @Query("SELECT c FROM Community c WHERE c.user.seq = :user_id and c.id = :id")
     List<Community> findCommunityDetail(Long user_id, Long id);
 
+
+    ///////////////////////////////////////////////////////////
+    /////////////////// 게시판 -> 댓글 /////////////////////////
 }

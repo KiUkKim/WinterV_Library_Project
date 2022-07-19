@@ -2,6 +2,7 @@ package com.eunyeong.book.springboot.domain.user;
 
 import com.eunyeong.book.springboot.domain.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

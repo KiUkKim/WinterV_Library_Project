@@ -2,12 +2,14 @@ package com.eunyeong.book.springboot.service.facilities;
 
 import com.eunyeong.book.springboot.domain.books.Library;
 import com.eunyeong.book.springboot.domain.books.LibraryRepository;
+import com.eunyeong.book.springboot.domain.facility.InfoRepository;
 import com.eunyeong.book.springboot.domain.facility.ReadingRoom;
 import com.eunyeong.book.springboot.domain.facility.Seats;
 import com.eunyeong.book.springboot.domain.facility.SeatsRepository;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.domain.user.UserRepository;
 import com.eunyeong.book.springboot.web.dto.FacilitiesDto;
+import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @EnableScheduling // 스케줄링 기능을 enable 함
 @Slf4j
@@ -24,6 +27,7 @@ public class FacilitiesService {
     private final LibraryRepository libraryRepository;
     private final SeatsRepository seatsRepository;
     private final UserRepository userRepository;
+    private final InfoRepository infoRepository;
 
     @Transactional
     public Library findLibrary(Long id) {
@@ -60,5 +64,18 @@ public class FacilitiesService {
     public Seats findSeatRecordByUserId(Long user_id) {
         User user = userRepository.findUserById(user_id);
         return user.getSeat();
+    }
+
+
+    /**
+     * 층별 정보 받아오기(기욱)
+     */
+    // 전체 조회
+    @Transactional
+    public List<FacilitiesDto.InfoListDto> searchAllDescInfo()
+    {
+        return infoRepository.findInfo().stream()
+                .map(FacilitiesDto.InfoListDto::new)
+                .collect(Collectors.toList());
     }
 }

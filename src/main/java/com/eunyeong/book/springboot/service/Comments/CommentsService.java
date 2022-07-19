@@ -54,7 +54,7 @@ public class CommentsService {
         // user email로 db user번호 찾기
         Long seq = communityRepository.userIDoFCommunity(commentsDeleteDto.getEmail());
 
-        int check = commentsRepository.TrueOrFalseInComments(seq, commentsDeleteDto.getCit_id());
+        int check = commentsRepository.TrueOrFalseInComments(seq, commentsDeleteDto.getCit_id(), commentsDeleteDto.getId());
 
         // check == 0이 아닐 경우, 삭제하려는 게시물의 댓글이 아니거나, 작성자가 아닙니다.
         if(check < 1)
@@ -63,6 +63,25 @@ public class CommentsService {
         }
 
         commentsRepository.deleteCommentsById(id);
+
+        return id;
+    }
+
+    @Transactional
+    public Long deleteComments2(Long id, UserDto.CommentsDeleteDto commentsDeleteDto)
+    {
+        // user email로 db user번호 찾기
+        Long seq = communityRepository.userIDoFCommunity(commentsDeleteDto.getEmail());
+
+        int check = commentsRepository.TrueOrFalseInComments(seq, commentsDeleteDto.getCit_id(), commentsDeleteDto.getId());
+
+        // check == 0이 아닐 경우, 삭제하려는 게시물의 댓글이 아니거나, 작성자가 아닙니다.
+        if(check < 1)
+        {
+            throw new RuntimeException("댓글의 작성자가 아니거나 유효하지 않은 게시물의 댓글입니다.");
+        }
+
+        commentsRepository.deleteCommentsById2(id);
 
         return id;
     }
@@ -76,7 +95,7 @@ public class CommentsService {
 
         Long seq = communityRepository.userIDoFCommunity(commentsUpdateDto.getEmail());
 
-        int check = commentsRepository.TrueOrFalseInComments(seq, commentsUpdateDto.getCit_id());
+        int check = commentsRepository.TrueOrFalseInComments(seq, commentsUpdateDto.getCit_id(), commentsUpdateDto.getCmt_id());
 
         // check == 0일 경우, 수정하려는 게시물의 댓글이 아니거나, 작성자가 아닙니다.
         if(check < 1)
@@ -92,13 +111,47 @@ public class CommentsService {
 
         return modelView;
     }
+    
+    
+    /*
+    조회 관련
+     */
+    
+    // 댓글
+    @Transactional
+    public List<Comments> findComments(Long community_id, Long user_id)
+    {
+        return commentsRepository.findCommentList(community_id, user_id);
+    }
+    
+    // 대댓글
+    @Transactional
+    public List<Comments> findCcoments(Long community_id)
+    {
+        return commentsRepository.findCcomentsList(community_id);
+    }
+    
 
     /////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////// 대댓글 관련 로직 /////////////////////////////////////
+
+    /*
+    댓글 개수 카운팅
+     */
     @Transactional
     public void updateCommentCount(Long cmt_id)
     {
         commentsRepository.IncreaseCommentsCount(cmt_id);
     }
+
+    /*
+    댓글이 어떤 게시물에 저장된 건지 확인하기 위한 로직
+     */
+    @Transactional
+    public long FindCommunityId(Long cmt_id)
+    {
+        return commentsRepository.FindBoardId(cmt_id);
+    }
+
 
 }

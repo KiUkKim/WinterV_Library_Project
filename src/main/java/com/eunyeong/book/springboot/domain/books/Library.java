@@ -1,5 +1,6 @@
 package com.eunyeong.book.springboot.domain.books;
 
+import com.eunyeong.book.springboot.domain.facility.Info;
 import com.eunyeong.book.springboot.domain.facility.ReadingRoom;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
@@ -22,6 +23,10 @@ public class Library {
 
     @Column(unique = true)
     private String library_name;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "library", orphanRemoval = true)
+    private List<Info> facilityInfos = new ArrayList<>();
 
 //    @Column
 //    private String operatingHours;

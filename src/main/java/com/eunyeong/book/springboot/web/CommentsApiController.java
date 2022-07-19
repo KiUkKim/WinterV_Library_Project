@@ -1,5 +1,7 @@
 package com.eunyeong.book.springboot.web;
 
+import com.eunyeong.book.springboot.domain.ErrorMessage.errorMessage;
+import com.eunyeong.book.springboot.domain.ErrorMessage.errorMessage2;
 import com.eunyeong.book.springboot.domain.user.Comments;
 import com.eunyeong.book.springboot.domain.user.Community;
 import com.eunyeong.book.springboot.domain.user.User;
@@ -8,6 +10,8 @@ import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +28,23 @@ public class CommentsApiController {
     @ResponseBody
     public Long CommentsSave(@RequestBody UserDto.CommentResponseDto commentResponseDto)
     {
+        // 대댓글일 경우 판단. ( 대댓글일때, 해당 게시물에 해당하는 댓글인지 검증하는 로직)
+        if(commentResponseDto.getCmt_id() != null)
+        {
+            Long community_id = commentsService.FindCommunityId(commentResponseDto.getCmt_id());
+
+            if(community_id != commentResponseDto.getBoard_id())
+            {
+//                errorMessage2 errormessage2 = errorMessage2.builder()
+//                        .status("400").msg("대댓글과 댓글의 게시물 번호가 일치하지 않습니다.").build();
+
+                // 대댓글이 댓글의 게시물과 일치하지 않는다면 오류 발생
+                throw new RuntimeException("댓글과 대댓글의 게시물 번호가 일치하지 않습니다.");
+            }
+
+        }
+
+
         //////////// 데이터 처리 //////////////////////////
         // front에서 전달받은 JSON 객체 중 email을 user table의 id로 변환
         Long seq = userService.SearchUser(commentResponseDto.getEmail());
@@ -79,7 +100,8 @@ public class CommentsApiController {
     @ResponseBody
     public Long commentDelete(@RequestBody UserDto.CommentsDeleteDto commentsDeleteDto)
     {
-        return commentsService.deleteComments(commentsDeleteDto.getId(), commentsDeleteDto);
+//        return commentsService.deleteComments(commentsDeleteDto.getId(), commentsDeleteDto);
+        return commentsService.deleteComments2(commentsDeleteDto.getId(), commentsDeleteDto);
     }
 
     // 댓글 수정

@@ -32,7 +32,7 @@ public class Comments extends BaseTimeEntity {
     private User user;
 
     // 해당 게시글에 대한 댓글
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="community_id")
     private Community community;
@@ -52,8 +52,7 @@ public class Comments extends BaseTimeEntity {
 
     // 댓글 삭제 여부 확인 ( 삭제되었으면 front에서 삭제된 댓글이라고 띄우기 위함)
     @Column(name = "CommentDel")
-    @ColumnDefault("'YES'")
-    private String CommentDel;
+    private String CommentDel = "YES";
 
     @Builder
     public Comments(String content, User user, Community community, int CommentDepth, Long CommentGroup)
