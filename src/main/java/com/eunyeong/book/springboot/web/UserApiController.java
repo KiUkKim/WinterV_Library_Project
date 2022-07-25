@@ -32,7 +32,7 @@ public class UserApiController {
             User user = userService.findUserInfo(userDto.getUserInfo().getId());
 
             // Bean NULL CHECK POINT
-            Assert.notNull(userDto, "userDto must not be NULL");
+            Assert.notNull(userDto, "userDto must nxxot be NULL");
             Assert.notNull(user, "user must not be NULL");
             // END CHECK POINT
 
