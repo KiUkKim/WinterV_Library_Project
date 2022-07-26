@@ -40,4 +40,13 @@ public class TestApiController {
         String test = "library_id : " + libraryid;
         return test;
     }
+
+    @GetMapping("/testParam2")
+    @ResponseBody
+    public String TestPrintParam3(@RequestParam String keyword)
+    {
+        String key = testservice.testParam(keyword);
+        String test = "keyword : " + key;
+        return test;
+    }
 }

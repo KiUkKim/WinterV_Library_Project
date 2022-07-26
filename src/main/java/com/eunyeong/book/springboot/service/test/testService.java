@@ -11,4 +11,9 @@ public class testService {
     {
         return library_id;
     }
+
+    public String testParam(String keyword)
+    {
+        return keyword;
+    }
 }
