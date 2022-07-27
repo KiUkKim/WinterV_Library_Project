@@ -183,6 +183,8 @@ public class BooksApiController {
         Long seq = param.get("seq");
         CollectInfo collectInfo = booksService.findCollectInfo(seq);
 
+        Assert.notNull(collectInfo, "collectinto is not null!!");
+
         Long user_id = param.get("user_id");
         User user = userService.findUser(user_id);
 
@@ -202,10 +204,11 @@ public class BooksApiController {
 
         BooksDto.CollectInfoUpdateRequestDto requestDto2 = new BooksDto.CollectInfoUpdateRequestDto();
         BeanUtils.copyProperties(collectInfo, requestDto2);
+
+        Assert.notNull(collectInfo, "source is not null!!!");
+        Assert.notNull(requestDto2, "target is not null!!");
         requestDto2.setReserveState(0); //예약 불가능(0)으로 바꿔야 함
-
         booksService.updateCollectInfo(seq, requestDto2);
-
     }
 
     /**
