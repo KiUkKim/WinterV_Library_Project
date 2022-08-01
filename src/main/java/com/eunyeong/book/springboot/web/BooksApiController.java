@@ -6,6 +6,7 @@ import com.eunyeong.book.springboot.service.books.BooksService;
 
 import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.BooksDto;
+import com.eunyeong.book.springboot.web.dto.GetDto;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.BeanUtils;
@@ -60,9 +61,7 @@ public class BooksApiController {
      */
     @GetMapping("/book/search")
     @ResponseBody
-    public Map<String, Object> search(@RequestBody HashMap<String, Object> param) {
-
-        String keyword = param.get("keyword").toString();
+    public Map<String, Object> search(@RequestParam(value = "keyword", required = true) String keyword) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -76,10 +75,7 @@ public class BooksApiController {
      */
     @GetMapping("/book/detail")
     @ResponseBody
-    public Map<String, Object> bookDetail(@RequestBody HashMap<String, Object> param) {
-
-        String title = param.get("title").toString();
-
+    public Map<String, Object> bookDetail(@RequestParam(value = "title", required = true) String title) {
         Map<String, Object> map = new HashMap<>();
 
         map.put("bookDetail", booksService.searchBooksDetail(title));
@@ -149,8 +145,8 @@ public class BooksApiController {
      */
     @GetMapping("/book/loan/status")
     @ResponseBody
-    public Map<String, Object> loan_status(@RequestBody HashMap<String, Long> param) {
-        Long user_id = param.get("user_id");
+    public Map<String, Object> loan_status(@RequestParam(value = "user_id", required = true) Long user_id) {
+
         User user = userService.findUser(user_id);
 
         Map<String, Object> map = new HashMap<>();
@@ -188,6 +184,7 @@ public class BooksApiController {
         Long user_id = param.get("user_id");
         User user = userService.findUser(user_id);
 
+        System.out.println("user : " + user);
 
         BooksDto.ReserveSaveRequestDto reserveRequestDto = new BooksDto.ReserveSaveRequestDto();
 

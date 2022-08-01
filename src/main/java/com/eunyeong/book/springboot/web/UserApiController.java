@@ -96,9 +96,7 @@ public class UserApiController {
      */
     @GetMapping("/user/search")
     @ResponseBody
-    public List<UserDto.UserListRequestDto> searchUser(@RequestBody HashMap<String, Object> param){
-        String email = param.get("email").toString();
-
+    public List<UserDto.UserListRequestDto> searchUser(@RequestParam(value = "email", required = true) String email){
         return userService.searchUserByEmail(email);
     }
 

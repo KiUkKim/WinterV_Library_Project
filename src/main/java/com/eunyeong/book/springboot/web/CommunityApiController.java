@@ -72,10 +72,8 @@ public class CommunityApiController {
     // 커뮤니티 특정 게시글 조회 ( 게시글 눌렀을 때 보이는 정보 )
     @GetMapping("/community/detail")
     @ResponseBody
-    public Map<String, Object> searchCommunity(@RequestBody HashMap<String, Long> param)
+    public Map<String, Object> searchCommunity(@RequestParam(value = "id", required = true) Long id)
     {
-        Long id = param.get("id");
-
         // ID Bean Null check
         Assert.notNull(id, "id must not be NULL");
 

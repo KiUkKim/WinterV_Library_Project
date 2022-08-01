@@ -41,13 +41,11 @@ public class NoticeApiController {
     // 공지사항을 눌렀을 때 보이는 상세조회 (이 때, 해당 게시글이 조회수 업데이트 )
     @GetMapping("/notice/detail")
     @ResponseBody
-    public Map<String, Object> searchNotice(@RequestBody HashMap<String, Long> param){
-        Long id = param.get("id");
-
+    public Map<String, Object> searchNotice(@RequestParam Long id){
         // 조회 시, 카운팅
         userService.updateView(id);
 
-        // User에 해당하는 게시물 출력하기 위해서 id받아오기
+        // User에 해당하는 게시물 출력하기 위해서 id 받아오기
         Long user_id = userService.findNoticeUserId(id);
 
         Map<String, Object> map = new HashMap<>();
