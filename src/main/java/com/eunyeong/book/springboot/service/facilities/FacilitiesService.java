@@ -2,14 +2,10 @@ package com.eunyeong.book.springboot.service.facilities;
 
 import com.eunyeong.book.springboot.domain.books.Library;
 import com.eunyeong.book.springboot.domain.books.LibraryRepository;
-import com.eunyeong.book.springboot.domain.facility.InfoRepository;
-import com.eunyeong.book.springboot.domain.facility.ReadingRoom;
-import com.eunyeong.book.springboot.domain.facility.Seats;
-import com.eunyeong.book.springboot.domain.facility.SeatsRepository;
+import com.eunyeong.book.springboot.domain.facility.*;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.domain.user.UserRepository;
 import com.eunyeong.book.springboot.web.dto.FacilitiesDto;
-import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -27,7 +23,8 @@ public class FacilitiesService {
     private final LibraryRepository libraryRepository;
     private final SeatsRepository seatsRepository;
     private final UserRepository userRepository;
-    private final InfoRepository infoRepository;
+    private final FacilityReserveRepository facilityReserveRepository;
+    private final FacilityInfoRepository facilityInfoRepository;
 
     @Transactional
     public Library findLibrary(Long id) {
@@ -66,16 +63,25 @@ public class FacilitiesService {
         return user.getSeat();
     }
 
+    /**
+     * 시설 예약
+     */
+    @Transactional
+    public void saveFacilityReserve(FacilitiesDto.FacilityReserveSaveRequestDto requestDto) {
+        facilityReserveRepository.save(requestDto.toEntity());
+    }
 
     /**
-     * 층별 정보 받아오기(기욱)
+     * 시설 예약 기록 조회
      */
-    // 전체 조회
     @Transactional
-    public List<FacilitiesDto.InfoListDto> searchAllDescInfo()
+    public List<FacilityReserve> facilityReserveAllDesc(Long user_id)
     {
-        return infoRepository.findInfo().stream()
-                .map(FacilitiesDto.InfoListDto::new)
-                .collect(Collectors.toList());
+        return facilityReserveRepository.facilityReserveById(user_id);
+    }
+
+    @Transactional
+    public FacilityInfo findFacilityInfo(Long id) {
+        return facilityInfoRepository.findFacilityInfoById(id);
     }
 }
