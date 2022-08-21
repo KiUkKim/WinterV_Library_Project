@@ -23,8 +23,6 @@ public class BooksService {
 
     private final LibraryRepository libraryRepository;
 
-    private final CategoryRepository categoryRepository;
-
     private final ReserveRepository reserveRepository;
 
     @Transactional
