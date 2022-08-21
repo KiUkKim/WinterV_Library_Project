@@ -2,9 +2,7 @@ package com.eunyeong.book.springboot.service.facilities;
 
 import com.eunyeong.book.springboot.domain.books.Library;
 import com.eunyeong.book.springboot.domain.books.LibraryRepository;
-import com.eunyeong.book.springboot.domain.facility.ReadingRoom;
-import com.eunyeong.book.springboot.domain.facility.Seats;
-import com.eunyeong.book.springboot.domain.facility.SeatsRepository;
+import com.eunyeong.book.springboot.domain.facility.*;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.domain.user.UserRepository;
 import com.eunyeong.book.springboot.web.dto.FacilitiesDto;
@@ -24,6 +22,8 @@ public class FacilitiesService {
     private final LibraryRepository libraryRepository;
     private final SeatsRepository seatsRepository;
     private final UserRepository userRepository;
+    private final FacilityReserveRepository facilityReserveRepository;
+    private final FacilityInfoRepository facilityInfoRepository;
 
     @Transactional
     public Library findLibrary(Long id) {
@@ -60,5 +60,27 @@ public class FacilitiesService {
     public Seats findSeatRecordByUserId(Long user_id) {
         User user = userRepository.findUserById(user_id);
         return user.getSeat();
+    }
+
+    /**
+     * 시설 예약
+     */
+    @Transactional
+    public void saveFacilityReserve(FacilitiesDto.FacilityReserveSaveRequestDto requestDto) {
+        facilityReserveRepository.save(requestDto.toEntity());
+    }
+
+    /**
+     * 시설 예약 기록 조회
+     */
+    @Transactional
+    public List<FacilityReserve> facilityReserveAllDesc(Long user_id)
+    {
+        return facilityReserveRepository.facilityReserveById(user_id);
+    }
+
+    @Transactional
+    public FacilityInfo findFacilityInfo(Long id) {
+        return facilityInfoRepository.findFacilityInfoById(id);
     }
 }

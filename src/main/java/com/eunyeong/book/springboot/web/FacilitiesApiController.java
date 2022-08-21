@@ -1,73 +1,94 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.eunyeong.book.springboot.web;
 
+import com.eunyeong.book.springboot.domain.facility.FacilityReserve;
 import com.eunyeong.book.springboot.domain.facility.Seats;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.service.facilities.FacilitiesService;
 import com.eunyeong.book.springboot.service.user.UserService;
-import com.eunyeong.book.springboot.web.dto.FacilitiesDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
+import com.eunyeong.book.springboot.web.dto.FacilitiesDto.FacilityReserveSaveRequestDto;
+import com.eunyeong.book.springboot.web.dto.FacilitiesDto.SeatsUpdateRequestDto;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
 @RestController
 public class FacilitiesApiController {
     private final FacilitiesService facilitiesService;
     private final UserService userService;
 
-    /**
-     * 도서관별 열람실 정보 가져오기
-     */
-    @GetMapping("/readingroom")
+    @GetMapping({"/readingroom/{library_id}"})
     @ResponseBody
-    public Map<String, Object> readingRoom(@RequestBody HashMap<String, Long> param) {
-
-        Long library_id = param.get("library_id");
-
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
-
+    public Map<String, Object> readingRoom(@PathVariable Long library_id) {
+        Map<String, Object> map = new HashMap();
+        map.put("readingRoom", this.facilitiesService.findReadingRoomByLibraryId(library_id));
         return map;
     }
 
-    /**
-     * 좌석 배정
-     */
-    @PutMapping("seat/assignment")
-    public Long seatAssignment(@RequestBody HashMap<String, String> param){
-        LocalTime useT = LocalTime.parse(param.get("useT"));
-        Long user_id = Long.parseLong(param.get("user_id"));
-        Long seat_id = Long.parseLong(param.get("seat_id"));
-
-        User user = userService.findUser(user_id);
-
-        FacilitiesDto.SeatsUpdateRequestDto requestDto = new FacilitiesDto.SeatsUpdateRequestDto();
+    @PutMapping({"seat/assignment"})
+    public Long seatAssignment(@RequestBody HashMap<String, String> param) {
+        LocalTime useT = LocalTime.parse((CharSequence)param.get("useT"));
+        Long user_id = Long.parseLong((String)param.get("user_id"));
+        Long seat_id = Long.parseLong((String)param.get("seat_id"));
+        User user = this.userService.findUser(user_id);
+        SeatsUpdateRequestDto requestDto = new SeatsUpdateRequestDto();
         requestDto.setStartT(LocalDateTime.now());
         requestDto.setUseT(useT);
-        requestDto.setCheckT(LocalDateTime.now().plusMinutes(10));
-        requestDto.setAssignmentT(LocalDateTime.now().plusHours(useT.getHour()).plusMinutes(useT.getMinute()));
+        requestDto.setCheckT(LocalDateTime.now().plusMinutes(10L));
+        requestDto.setAssignmentT(LocalDateTime.now().plusHours((long)useT.getHour()).plusMinutes((long)useT.getMinute()));
         requestDto.setUser(user);
-
-        return facilitiesService.seatAssignment(seat_id, requestDto);
+        return this.facilitiesService.seatAssignment(seat_id, requestDto);
     }
 
-    /**
-     * 좌석배정 정보 가져오기
-     */
-    @GetMapping("/seat/state")
+    @GetMapping({"/seat/state"})
     @ResponseBody
     public Seats seatRecord(@RequestBody HashMap<String, Long> param) {
-
-        Long user_id = param.get("user_id");
-
-        return facilitiesService.findSeatRecordByUserId(user_id);
-
+        Long user_id = (Long)param.get("user_id");
+        return this.facilitiesService.findSeatRecordByUserId(user_id);
     }
 
+    @PutMapping({"/facility/reserve"})
+    @ResponseBody
+    public void reserveFacility(@RequestBody HashMap<String, String> param) {
+        Long id = (long)Integer.parseInt((String)param.get("id"));
+        this.facilitiesService.findFacilityInfo(id);
+        Long user_id = (long)Integer.parseInt((String)param.get("user_id"));
+        User user = this.userService.findUser(user_id);
+        String startDateTime_str = (String)param.get("startDateTime");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        LocalDateTime startDateTime = LocalDateTime.parse(startDateTime_str, formatter);
+        String endDateTime_str = (String)param.get("endDateTime");
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        LocalDateTime endDateTime = LocalDateTime.parse(endDateTime_str, formatter);
+        FacilityReserveSaveRequestDto reserveRequestDto = new FacilityReserveSaveRequestDto();
+        reserveRequestDto.setUser(user);
+        reserveRequestDto.setStartDateTime(startDateTime);
+        reserveRequestDto.setEndDateTime(endDateTime);
+        this.facilitiesService.saveFacilityReserve(reserveRequestDto);
+    }
 
+    @GetMapping({"/facility/reserve/state"})
+    @ResponseBody
+    public List<FacilityReserve> ReserveAllList(@RequestBody HashMap<String, Long> param) {
+        Long user_id = (Long)param.get("user_id");
+        return this.facilitiesService.facilityReserveAllDesc(user_id);
+    }
+
+    public FacilitiesApiController(final FacilitiesService facilitiesService, final UserService userService) {
+        this.facilitiesService = facilitiesService;
+        this.userService = userService;
+    }
 }

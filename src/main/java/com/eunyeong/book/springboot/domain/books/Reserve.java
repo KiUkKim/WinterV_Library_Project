@@ -2,7 +2,6 @@ package com.eunyeong.book.springboot.domain.books;
 
 import com.eunyeong.book.springboot.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +25,7 @@ public class Reserve {
     private User user;
 
     @JsonBackReference
-    @ManyToOne(targetEntity = CollectInfo.class, fetch=FetchType.EAGER)
+    @OneToOne(targetEntity = CollectInfo.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "collectInfo_id")
     private CollectInfo collectInfo;
 

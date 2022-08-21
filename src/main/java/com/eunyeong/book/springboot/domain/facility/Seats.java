@@ -42,7 +42,7 @@ public class Seats {
     private ReadingRoom readingRoom;
 
     @JsonBackReference
-    @OneToOne(targetEntity= User.class, fetch=FetchType.EAGER)
+    @OneToOne(targetEntity= User.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="user")
     private User user;
 

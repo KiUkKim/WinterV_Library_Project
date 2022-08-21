@@ -19,6 +19,4 @@ public interface CollectInfoRepository extends JpaRepository<CollectInfo, Long> 
     @Query("SELECT c FROM CollectInfo c WHERE c.book.id=:book_id")
     List<CollectInfo> findCollectInfoByBookid(Long book_id);
 
-
-
 }

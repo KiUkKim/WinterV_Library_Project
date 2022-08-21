@@ -1,5 +1,9 @@
 package com.eunyeong.book.springboot.domain.books;
 
+//import com.eunyeong.book.springboot.domain.facility.Facilities;
+//import com.eunyeong.book.springboot.domain.facility.FacilityGroup;
+
+import com.eunyeong.book.springboot.domain.facility.FacilityInfo;
 import com.eunyeong.book.springboot.domain.facility.ReadingRoom;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
@@ -33,6 +37,11 @@ public class Library {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "library", orphanRemoval = true)
     private List<ReadingRoom> readingRoomList = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "library", orphanRemoval = true)
+    private List<FacilityInfo> FacilityInfoList = new ArrayList<>();
+
 
     @Builder
     public Library(String library_name, List<CollectInfo> collectInfoList, List<ReadingRoom> readingRoomList){

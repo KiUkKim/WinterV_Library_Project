@@ -42,7 +42,7 @@ public class CollectInfo {
     @JoinColumn(name="book_id")
     private Books book;
 
-    @OneToOne(mappedBy = "collectInfo")
+    @OneToOne(mappedBy = "collectInfo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Reserve reserve;
 
     //대출 관련 컬럼

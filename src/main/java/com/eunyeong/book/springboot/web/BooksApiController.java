@@ -147,7 +147,7 @@ public class BooksApiController {
     /**
      * 대출현황 리스트 조회
      */
-    @GetMapping("/book/loan/status")
+    @GetMapping("/book/loan/state")
     @ResponseBody
     public Map<String, Object> loan_status(@RequestBody HashMap<String, Long> param) {
         Long user_id = param.get("user_id");
