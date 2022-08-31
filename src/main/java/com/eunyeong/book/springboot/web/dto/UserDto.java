@@ -331,6 +331,21 @@ public class UserDto {
         }
     }
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CommunitytestDto{
+        private String email;
+        private Long id;
+
+        @Builder
+        public CommunitytestDto(String email, Long id)
+        {
+            this.email = email;
+            this.id = id;
+        }
+    }
+
 
 
 

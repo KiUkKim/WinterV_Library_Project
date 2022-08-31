@@ -44,6 +44,8 @@ public class FacilitiesApiController {
         return this.facilitiesService.seatAssignment(seat_id, requestDto);
     }
 
+    //TODO
+    //parameter 방식
     @GetMapping({"/seat/state"})
     @ResponseBody
     public Seats seatRecord(@RequestBody HashMap<String, Long> param) {
@@ -51,6 +53,8 @@ public class FacilitiesApiController {
         return this.facilitiesService.findSeatRecordByUserId(user_id);
     }
 
+    //TODO
+    //detached entity passed to persist: com.eunyeong.book.springboot.domain.user.User; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: com.eunyeong.book.springboot.domain.user.User
     @PutMapping({"/facility/reserve"})
     @ResponseBody
     public void reserveFacility(@RequestBody HashMap<String, String> param) {
@@ -71,6 +75,8 @@ public class FacilitiesApiController {
         this.facilitiesService.saveFacilityReserve(reserveRequestDto);
     }
 
+    //TODO
+    // JSON -> PARAM
     @GetMapping({"/facility/reserve/state"})
     @ResponseBody
     public List<FacilityReserve> ReserveAllList(@RequestBody HashMap<String, Long> param) {

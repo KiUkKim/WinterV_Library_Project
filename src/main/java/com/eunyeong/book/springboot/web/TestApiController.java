@@ -2,6 +2,7 @@ package com.eunyeong.book.springboot.web;
 
 import com.eunyeong.book.springboot.service.test.testService;
 import com.eunyeong.book.springboot.web.dto.TestDto;
+import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -48,5 +49,12 @@ public class TestApiController {
         String key = testservice.testParam(keyword);
         String test = "keyword : " + key;
         return test;
+    }
+
+    @PutMapping("/community/test")
+    @ResponseBody
+    public UserDto.CommunitytestDto noticeDelete(@RequestBody UserDto.CommunitytestDto communitytestDto)
+    {
+        return communitytestDto;
     }
 }
