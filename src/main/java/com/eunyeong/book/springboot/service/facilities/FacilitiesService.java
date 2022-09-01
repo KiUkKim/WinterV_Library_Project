@@ -45,8 +45,6 @@ public class FacilitiesService {
     /**
      * 좌석 배정
      */
-    //TODO
-    //db
     @Transactional
     public Long seatAssignment(Long pk, FacilitiesDto.SeatsUpdateRequestDto requestDto) {
         Seats seats = seatsRepository.findById(pk).orElseThrow(() -> new IllegalArgumentException("해당 좌석이 없습니다. pk=" + pk));

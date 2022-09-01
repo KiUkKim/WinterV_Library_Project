@@ -21,6 +21,9 @@ public class FacilitiesApiController {
     private final FacilitiesService facilitiesService;
     private final UserService userService;
 
+    // TODO
+    //  infoList 만들기
+
     @GetMapping({"/readingroom/{library_id}"})
     @ResponseBody
     public Map<String, Object> readingRoom(@PathVariable Long library_id) {
@@ -45,16 +48,20 @@ public class FacilitiesApiController {
     }
 
     //TODO
-    //parameter 방식
+    // parameter 방식 -> 완료
     @GetMapping({"/seat/state"})
     @ResponseBody
-    public Seats seatRecord(@RequestBody HashMap<String, Long> param) {
-        Long user_id = (Long)param.get("user_id");
+    public Seats seatRecord(@RequestParam(name = "user_id", required = true) Long user_id) {
         return this.facilitiesService.findSeatRecordByUserId(user_id);
     }
 
+//    public Seats seatRecord(@RequestBody HashMap<String, Long> param) {
+//        Long user_id = (Long)param.get("user_id");
+//        return this.facilitiesService.findSeatRecordByUserId(user_id);
+//    }
+
     //TODO
-    //detached entity passed to persist: com.eunyeong.book.springboot.domain.user.User; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: com.eunyeong.book.springboot.domain.user.User
+    // detached entity passed to persist: com.eunyeong.book.springboot.domain.user.User; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: com.eunyeong.book.springboot.domain.user.User
     @PutMapping({"/facility/reserve"})
     @ResponseBody
     public void reserveFacility(@RequestBody HashMap<String, String> param) {
@@ -76,11 +83,10 @@ public class FacilitiesApiController {
     }
 
     //TODO
-    // JSON -> PARAM
+    // JSON -> PARAM :: 완료
     @GetMapping({"/facility/reserve/state"})
     @ResponseBody
-    public List<FacilityReserve> ReserveAllList(@RequestBody HashMap<String, Long> param) {
-        Long user_id = (Long)param.get("user_id");
+    public List<FacilityReserve> ReserveAllList(@RequestParam(name = "user_id" , required = true) Long user_id) {
         return this.facilitiesService.facilityReserveAllDesc(user_id);
     }
 

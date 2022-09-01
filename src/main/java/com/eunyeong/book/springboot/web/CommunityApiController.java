@@ -69,6 +69,8 @@ public class CommunityApiController {
     public List<UserDto.CommunityListResponseDto> CommunityAllList() {return userService.searchAllDescCommunity();}
 
 
+    //TODO
+    // API 수정
     // 커뮤니티 특정 게시글 조회 ( 게시글 눌렀을 때 보이는 정보 )
     @GetMapping("/community/detail")
     @ResponseBody

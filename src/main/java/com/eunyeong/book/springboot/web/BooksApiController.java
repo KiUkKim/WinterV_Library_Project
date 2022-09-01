@@ -159,7 +159,7 @@ public class BooksApiController {
      * 카테고리(collectLocation) 리스트 조회
      */
     //TODO
-    // 데이터 추가 ( 현재 1개 )
+    // 데이터 추가 ( 현재 1개 -> 7개로 증가 )
     @GetMapping("/book/category")
     @ResponseBody
     public Map<String, Object> categoryList() {
@@ -234,12 +234,17 @@ public class BooksApiController {
      * 예약 현황 조회
      */
     //TODO
-    // parameter 방식
+    // parameter 방식 -> 완료
+//    @GetMapping("/book/reserve/state")
+//    @ResponseBody
+//    public List<Reserve> ReserveAllList(@RequestBody HashMap<String, Long> param){
+//        Long user_id = param.get("user_id");
+//
+//        return booksService.searchReserveAllDesc(user_id);
+//    }
     @GetMapping("/book/reserve/state")
     @ResponseBody
-    public List<Reserve> ReserveAllList(@RequestBody HashMap<String, Long> param){
-        Long user_id = param.get("user_id");
-
+    public List<Reserve> ReserveAllList(@RequestParam(value = "user_id", required = true) Long user_id){
         return booksService.searchReserveAllDesc(user_id);
     }
 

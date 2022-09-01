@@ -95,7 +95,9 @@ public class CommentsApiController {
         return commentsService.saveComments(commentSaveDto);
     }
 
-    // 댓글 삭제
+    //TODO
+    // API 문서 업데이트
+    // 댓글 삭제 -> 완료
     @PutMapping("/comments/delete")
     @ResponseBody
     public Long commentDelete(@RequestBody UserDto.CommentsDeleteDto commentsDeleteDto)
