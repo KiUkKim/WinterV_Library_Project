@@ -21,9 +21,6 @@ public class FacilitiesApiController {
     private final FacilitiesService facilitiesService;
     private final UserService userService;
 
-    // TODO
-    //  infoList 만들기
-
     @GetMapping({"/readingroom/{library_id}"})
     @ResponseBody
     public Map<String, Object> readingRoom(@PathVariable Long library_id) {
