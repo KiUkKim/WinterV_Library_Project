@@ -1,6 +1,7 @@
 package com.eunyeong.book.springboot.web;
 
 
+import com.eunyeong.book.springboot.domain.facility.FacilityInfo;
 import com.eunyeong.book.springboot.domain.facility.FacilityReserve;
 import com.eunyeong.book.springboot.domain.facility.Seats;
 import com.eunyeong.book.springboot.domain.user.User;
@@ -57,26 +58,31 @@ public class FacilitiesApiController {
 //        return this.facilitiesService.findSeatRecordByUserId(user_id);
 //    }
 
-    //TODO
-    // detached entity passed to persist: com.eunyeong.book.springboot.domain.user.User; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: com.eunyeong.book.springboot.domain.user.User
     @PutMapping({"/facility/reserve"})
     @ResponseBody
     public void reserveFacility(@RequestBody HashMap<String, String> param) {
-        Long id = (long)Integer.parseInt((String)param.get("id"));
-        this.facilitiesService.findFacilityInfo(id);
-        Long user_id = (long)Integer.parseInt((String)param.get("user_id"));
-        User user = this.userService.findUser(user_id);
-        String startDateTime_str = (String)param.get("startDateTime");
+        Long facility_id = Long.valueOf(Integer.parseInt(param.get("facility_id")));
+        FacilityInfo facilityInfo = facilitiesService.findFacilityInfo(facility_id);
+
+        Long user_id = Long.valueOf(Integer.parseInt(param.get("user_id")));
+        User user = userService.findUser(user_id);
+
+        String startDateTime_str = param.get("startDateTime"); //"2021-11-05 13:47:13.248" 이런 형식으로 줘야 함
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
         LocalDateTime startDateTime = LocalDateTime.parse(startDateTime_str, formatter);
-        String endDateTime_str = (String)param.get("endDateTime");
+
+        String endDateTime_str = param.get("endDateTime"); //"2021-11-05 13:47:13.248" 이런 형식으로 줘야 함
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
         LocalDateTime endDateTime = LocalDateTime.parse(endDateTime_str, formatter);
+
         FacilitiesDto.FacilityReserveSaveRequestDto reserveRequestDto = new FacilitiesDto.FacilityReserveSaveRequestDto();
+
         reserveRequestDto.setUser(user);
         reserveRequestDto.setStartDateTime(startDateTime);
         reserveRequestDto.setEndDateTime(endDateTime);
-        this.facilitiesService.saveFacilityReserve(reserveRequestDto);
+        reserveRequestDto.setFacilityInfo(facilityInfo);
+
+        facilitiesService.saveFacilityReserve(reserveRequestDto);
     }
 
     //TODO

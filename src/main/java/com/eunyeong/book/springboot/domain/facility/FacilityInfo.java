@@ -1,6 +1,7 @@
 package com.eunyeong.book.springboot.domain.facility;
 
 import com.eunyeong.book.springboot.domain.books.Library;
+import com.eunyeong.book.springboot.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class FacilityInfo {
     @ManyToOne(targetEntity= Library.class, fetch=FetchType.EAGER)
     @JoinColumn(name="library")
     private Library library;
+
 
     @Builder
     public FacilityInfo(LocalTime openTime, LocalTime closeTime, String facilityName, Library library, String groupName) {

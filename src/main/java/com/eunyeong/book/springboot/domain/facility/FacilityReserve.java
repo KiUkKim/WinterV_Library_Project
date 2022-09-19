@@ -30,17 +30,24 @@ public class FacilityReserve {
     @JoinColumn(name="user")
     private User user;
 
+    @JsonBackReference
+    @OneToOne(targetEntity= FacilityInfo.class)
+    @JoinColumn(name="facilityInfo_id")
+    private FacilityInfo facilityInfo;
+
     @Builder
-    public FacilityReserve(LocalDateTime startDateTime, LocalDateTime endDateTime, User user) {
+    public FacilityReserve(LocalDateTime startDateTime, LocalDateTime endDateTime, User user, FacilityInfo facilityInfo) {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.user = user;
+        this.facilityInfo=facilityInfo;
     }
 
-    public void update(LocalDateTime startDateTime, LocalDateTime endDateTime, User user) {
+    public void update(LocalDateTime startDateTime, LocalDateTime endDateTime, User user, FacilityInfo facilityInfo) {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.user = user;
+        this.facilityInfo=facilityInfo;
     }
 
 }

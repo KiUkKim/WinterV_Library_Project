@@ -1,5 +1,6 @@
 package com.eunyeong.book.springboot.web.dto;
 
+import com.eunyeong.book.springboot.domain.facility.FacilityInfo;
 import com.eunyeong.book.springboot.domain.facility.FacilityReserve;
 import com.eunyeong.book.springboot.domain.user.User;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class FacilitiesDto {
         private LocalDateTime startDateTime;
         private LocalDateTime endDateTime;
         private User user;
+        private FacilityInfo facilityInfo;
 
         @NotNull
         public FacilityReserve toEntity() {
@@ -35,6 +37,7 @@ public class FacilitiesDto {
                     .user(user)
                     .endDateTime(endDateTime)
                     .startDateTime(startDateTime)
+                    .facilityInfo(facilityInfo)
                     .build();
         }
     }
