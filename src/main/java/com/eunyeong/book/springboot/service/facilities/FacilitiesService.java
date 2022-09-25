@@ -37,7 +37,7 @@ public class FacilitiesService {
     @Transactional
     public List<ReadingRoom> findReadingRoomByLibraryId(Long libraryId) {
         // 해당 libraryId의 도서관을 가져온다
-        Library l = findLibrary(libraryId);
+        Library l = libraryRepository.findLibraryInfoById(libraryId);
 
         return l.getReadingRoomList();
     }

@@ -8,6 +8,7 @@ import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.service.facilities.FacilitiesService;
 import com.eunyeong.book.springboot.service.user.UserService;
 import com.eunyeong.book.springboot.web.dto.FacilitiesDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @RestController
 public class FacilitiesApiController {
     private final FacilitiesService facilitiesService;
@@ -26,7 +28,7 @@ public class FacilitiesApiController {
     @ResponseBody
     public Map<String, Object> readingRoom(@PathVariable Long library_id) {
         Map<String, Object> map = new HashMap();
-        map.put("readingRoom", this.facilitiesService.findReadingRoomByLibraryId(library_id));
+        map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
         return map;
     }
 
@@ -35,14 +37,14 @@ public class FacilitiesApiController {
         LocalTime useT = LocalTime.parse((CharSequence)param.get("useT"));
         Long user_id = Long.parseLong((String)param.get("user_id"));
         Long seat_id = Long.parseLong((String)param.get("seat_id"));
-        User user = this.userService.findUser(user_id);
+        User user = userService.findUser(user_id);
         FacilitiesDto.SeatsUpdateRequestDto requestDto = new FacilitiesDto.SeatsUpdateRequestDto();
         requestDto.setStartT(LocalDateTime.now());
         requestDto.setUseT(useT);
         requestDto.setCheckT(LocalDateTime.now().plusMinutes(10L));
         requestDto.setAssignmentT(LocalDateTime.now().plusHours((long)useT.getHour()).plusMinutes((long)useT.getMinute()));
         requestDto.setUser(user);
-        return this.facilitiesService.seatAssignment(seat_id, requestDto);
+        return facilitiesService.seatAssignment(seat_id, requestDto);
     }
 
     //TODO
@@ -50,7 +52,7 @@ public class FacilitiesApiController {
     @GetMapping({"/seat/state"})
     @ResponseBody
     public Seats seatRecord(@RequestParam(name = "user_id", required = true) Long user_id) {
-        return this.facilitiesService.findSeatRecordByUserId(user_id);
+        return facilitiesService.findSeatRecordByUserId(user_id);
     }
 
 //    public Seats seatRecord(@RequestBody HashMap<String, Long> param) {
@@ -90,12 +92,7 @@ public class FacilitiesApiController {
     @GetMapping({"/facility/reserve/state"})
     @ResponseBody
     public List<FacilityReserve> ReserveAllList(@RequestParam(name = "user_id" , required = true) Long user_id) {
-        return this.facilitiesService.facilityReserveAllDesc(user_id);
-    }
-
-    public FacilitiesApiController(final FacilitiesService facilitiesService, final UserService userService) {
-        this.facilitiesService = facilitiesService;
-        this.userService = userService;
+        return facilitiesService.facilityReserveAllDesc(user_id);
     }
 }
 
