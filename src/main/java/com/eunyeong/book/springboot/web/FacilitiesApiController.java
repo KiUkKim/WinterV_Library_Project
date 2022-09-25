@@ -28,10 +28,10 @@ public class FacilitiesApiController {
     @ResponseBody
     public Map<String, Object> readingRoom(@PathVariable Long library_id) {
         Map<String, Object> map = new HashMap();
-        map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
 
         System.out.println("facility : " + facilitiesService.findReadingRoomByLibraryId(library_id));
 
+        map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
         return map;
     }
 
