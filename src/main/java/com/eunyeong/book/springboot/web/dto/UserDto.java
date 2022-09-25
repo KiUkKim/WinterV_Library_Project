@@ -75,9 +75,7 @@ public class UserDto {
             this.accessToken = entity.getAccessToken();
             this.id = entity.getUserInfo().getId();
             this.email = entity.getUserInfo().getEmail();
-            this.given_name = entity.getUserInfo().getGiven_name();
-            this.picture = entity.getUserInfo().getPicture();
-            this.hd = entity.getUserInfo().getHd();
+            this.given_name = entity.getUserInfo().getName();
         }
     }
 
@@ -144,7 +142,7 @@ public class UserDto {
 
             // USer 영역
             private String email;
-            private String given_name;
+            private String name;
 
             public NoticeListResponseDto(Notice entity)
             {
@@ -155,7 +153,7 @@ public class UserDto {
                 this.title = entity.getTitle();
                 this.view_count = entity.getView_count();
                 this.email = entity.getUser().getUserInfo().getEmail();
-                this.given_name = entity.getUser().getUserInfo().getGiven_name();
+                this.name = entity.getUser().getUserInfo().getName();
             }
     }
 
@@ -232,7 +230,7 @@ public class UserDto {
 
         // User 영역
         private String email;
-        private String given_name;
+        private String name;
 
         public CommunityListResponseDto(Community entity)
         {
@@ -243,7 +241,7 @@ public class UserDto {
             this.title = entity.getTitle();
             this.view_count = entity.getView_count();
             this.email = entity.getUser().getUserInfo().getEmail();
-            this.given_name = entity.getUser().getUserInfo().getGiven_name();
+            this.name = entity.getUser().getUserInfo().getName();
         }
     }
 

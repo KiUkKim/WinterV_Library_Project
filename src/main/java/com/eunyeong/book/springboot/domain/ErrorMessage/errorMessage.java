@@ -15,9 +15,7 @@ public class errorMessage {
     private String accessToken;
     private String id;
     private String email;
-    private String given_name;
-    private String picture;
-    private String hd;
+    private String name;
 
     @Builder
     public errorMessage(String status, User user)
@@ -27,8 +25,6 @@ public class errorMessage {
         this.accessToken = user.getAccessToken();
         this.id = user.getUserInfo().getId();
         this.email = user.getUserInfo().getEmail();
-        this.given_name = user.getUserInfo().getGiven_name();
-        this.picture = user.getUserInfo().getPicture();
-        this.hd = user.getUserInfo().getHd();
+        this.name = user.getUserInfo().getName();
     }
 }
