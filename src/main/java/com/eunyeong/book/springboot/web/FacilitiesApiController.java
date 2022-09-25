@@ -29,6 +29,9 @@ public class FacilitiesApiController {
     public Map<String, Object> readingRoom(@PathVariable Long library_id) {
         Map<String, Object> map = new HashMap();
         map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
+
+        System.out.println("facility : " + facilitiesService.findReadingRoomByLibraryId(library_id));
+
         return map;
     }
 
@@ -94,5 +97,6 @@ public class FacilitiesApiController {
     public List<FacilityReserve> ReserveAllList(@RequestParam(name = "user_id" , required = true) Long user_id) {
         return facilitiesService.facilityReserveAllDesc(user_id);
     }
+
 }
 
