@@ -39,6 +39,9 @@ public class FacilitiesService {
         // 해당 libraryId의 도서관을 가져온다
         Library l = findLibrary(libraryId);
 
+        log.info("id" + libraryId);
+        log.info("l : " + l);
+
         return l.getReadingRoomList();
     }
 
