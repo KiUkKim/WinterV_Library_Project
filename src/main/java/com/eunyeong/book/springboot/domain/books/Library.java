@@ -32,7 +32,7 @@ public class Library {
     private List<CollectInfo> collectInfoList = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "library", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "library", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ReadingRoom> readingRoomList = new ArrayList<>();
 
     @JsonManagedReference
