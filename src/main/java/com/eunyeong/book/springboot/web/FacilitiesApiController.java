@@ -28,7 +28,6 @@ public class FacilitiesApiController {
     @GetMapping({"/readingroom/{library_id}"})
     @ResponseBody
     public Map<String, Object> readingRoom(@PathVariable Long library_id) {
-        Assert.notNull(facilitiesService.findReadingRoomByLibraryId(library_id), "service must not be null");
         Map<String, Object> map = new HashMap();
         map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
         return map;

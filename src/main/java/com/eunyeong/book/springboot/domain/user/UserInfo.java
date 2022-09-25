@@ -19,18 +19,10 @@ public class UserInfo {
     private String email;
 
     @Column(nullable = false)
-    private String given_name;
+    private String name;
 
-    @Column
-    private String picture;
-
-    @Column
-    private String hd;
-
-
-    public UserInfo update(String name, String picture){
-        this.given_name = name;
-        this.picture= picture;
+    public UserInfo update(String name){
+        this.name = name;
 
         return this;
     }
