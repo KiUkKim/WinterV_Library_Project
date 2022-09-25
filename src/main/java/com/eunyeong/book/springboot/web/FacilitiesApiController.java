@@ -29,8 +29,6 @@ public class FacilitiesApiController {
     public Map<String, Object> readingRoom(@PathVariable Long library_id) {
         Map<String, Object> map = new HashMap();
 
-        System.out.println("facility : " + facilitiesService.findReadingRoomByLibraryId(library_id));
-
         map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
         return map;
     }
