@@ -87,25 +87,17 @@ public class CommunityApiController {
 
         Map<String, Object> map = new HashMap<>();
 
-        Map<String, Object> map2 = new HashMap<>();
-
-        Map<String, Object> map3 = new HashMap<>();
-
         // 게시물 조회
         map.put("communityDetail", userService.searchUserCommunity(user_id, id));
 
-        map.put("comment", map2);
-
         // 댓글 조회
-        map2.put("commentsList", commentsService.findComments(id, user_id));
-
-        map2.put("CComent", map3);
+        map.put("commentsList", commentsService.findComments(id));
 
         // 대댓글 조회
-        map3.put("CcomentsList", commentsService.findCcoments(id));
+        map.put("CcomentsList", commentsService.findCcoments(id));
 
         //Bean null check
-        Assert.notNull(map2, "map must not be NULL");
+        Assert.notNull(map, "map must not be NULL");
 
         return map;
     }

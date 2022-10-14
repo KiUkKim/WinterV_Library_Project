@@ -30,7 +30,7 @@ public class CommentsService {
 
     // 해당 seq로 User 객체 찾아오기 ( 리팩토링 필요 )
     @Transactional
-    public User findComments(Long id)
+    public User findUserComments(Long id)
     {
         User user3 = commentsRepository.findUSerByComments(id);
 
@@ -119,9 +119,9 @@ public class CommentsService {
     
     // 댓글
     @Transactional
-    public List<Comments> findComments(Long community_id, Long user_id)
+    public List<Comments> findComments(Long community_id)
     {
-        return commentsRepository.findCommentList(community_id, user_id);
+        return commentsRepository.findCommentList(community_id);
     }
     
     // 대댓글

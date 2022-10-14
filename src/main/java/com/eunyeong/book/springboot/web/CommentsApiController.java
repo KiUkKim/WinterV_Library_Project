@@ -58,7 +58,7 @@ public class CommentsApiController {
         //////////// 데이터 넣는 과정 처리 /////////////////////
 
         // seq로 변경한 값으로 댓글의 작성자를 저장.
-        User user = commentsService.findComments(seq);
+        User user = commentsService.findUserComments(seq);
 
         // null check point
         Assert.notNull(user, "User must not be NULL");

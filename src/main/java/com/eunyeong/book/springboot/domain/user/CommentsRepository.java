@@ -46,8 +46,8 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
 //    @Query("SELECT c.cmt_id, c.CommentDepth, c.content, c.CommentDel, c.user.userInfo.given_name, c.createdDate, c.modifiedDate FROM Comments c WHERE c.CommentGroup = :GroupId")
 //    List<Comments> findCcomentsList(Long GroupId);
 
-    @Query("SELECT c FROM Comments c WHERE c.community.id = :community_id and c.user.seq = :user_id and c.CommentDepth = 0")
-    List<Comments> findCommentList(Long community_id, Long user_id);
+    @Query("SELECT c FROM Comments c WHERE c.community.id = :community_id and c.CommentDepth = 0")
+    List<Comments> findCommentList(Long community_id);
 
     // 대댓글 조회
     @Query("SELECT c FROM Comments c WHERE c.CommentGroup = :GroupId")

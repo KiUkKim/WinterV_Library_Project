@@ -158,7 +158,6 @@ public class BooksApiController {
     /**
      * 카테고리(collectLocation) 리스트 조회
      */
-    //TODO
     // 데이터 추가 ( 현재 1개 -> 7개로 증가 )
     @GetMapping("/book/category")
     @ResponseBody
