@@ -41,9 +41,9 @@ public class ReadingRoom {
     @Column
     private Integer utilizationRate;
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "readingRoom", orphanRemoval = true)
-    private List<Seats> seatsList = new ArrayList<>();
+//    @JsonManagedReference
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "readingRoom", orphanRemoval = true)
+//    private List<Seats> seatsList = new ArrayList<>();
 
     @Builder
     public ReadingRoom(Library library, String readingRoom_name, Integer totalNum, Integer useNum, Integer availableNum, Integer utilizationRate, List<Seats> seatsList){
@@ -53,7 +53,7 @@ public class ReadingRoom {
         this.useNum=useNum;
         this.availableNum=availableNum;
         this.utilizationRate=utilizationRate;
-        this.seatsList = seatsList;
+//        this.seatsList = seatsList;
     }
 
 }
