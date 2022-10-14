@@ -22,7 +22,7 @@ public class ReadingRoom {
     private Long id;
 
     @JsonBackReference
-    @ManyToOne(targetEntity= Library.class, fetch=FetchType.EAGER)
+    @ManyToOne(targetEntity= Library.class, fetch=FetchType.LAZY)
     @JoinColumn(name="library")
     private Library library;
 
