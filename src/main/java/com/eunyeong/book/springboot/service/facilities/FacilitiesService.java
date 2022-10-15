@@ -20,7 +20,6 @@ import java.util.List;
 @Service
 public class FacilitiesService {
     private final LibraryRepository libraryRepository;
-    private final ReadingRoomRepository readingRoomRepository;
     private final SeatsRepository seatsRepository;
     private final UserRepository userRepository;
     private final FacilityReserveRepository facilityReserveRepository;
@@ -34,14 +33,15 @@ public class FacilitiesService {
     /**
      * 해당 도서관별로 열람실 정보 가져오기
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReadingRoom> findReadingRoomByLibraryId(Long libraryId) {
         // 해당 libraryId의 도서관을 가져온다
-//        Library l = findLibrary(libraryId);
+        Library l = findLibrary(libraryId);
 
         log.info("id" + libraryId);
+        log.info("l : " + l);
 
-        return readingRoomRepository.readingRoomList(libraryId);
+        return l.getReadingRoomList();
     }
 
     /**
