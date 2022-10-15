@@ -10,6 +10,6 @@ public interface LibraryRepository extends JpaRepository<Library, Long>{
     @Query("SELECT c FROM Library c WHERE c.id= :id")
     Library findLibraryInfoById(Long id);
 
-    @Query("SELECT c.readingRoomList FROM ReadingRoom r,Library c WHERE c.id = :id")
-    List<ReadingRoom> findReadingRoomInfo(Long id);
+//    @Query("SELECT r FROM ReadingRoom r,Library c JOIN FETCH c.readingRoomList WHERE c.id = :id")
+//    List<ReadingRoom> findReadingRoomInfo(Long id);
 }

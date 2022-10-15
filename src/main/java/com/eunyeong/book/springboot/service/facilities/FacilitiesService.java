@@ -21,6 +21,7 @@ import java.util.List;
 @Service
 public class FacilitiesService {
     private final LibraryRepository libraryRepository;
+    private final ReadingRoomRepository readingRoomRepository;
     private final SeatsRepository seatsRepository;
     private final UserRepository userRepository;
     private final FacilityReserveRepository facilityReserveRepository;
@@ -42,7 +43,7 @@ public class FacilitiesService {
         log.info("id" + libraryId);
 //        log.info("l : " + l);
 
-        return libraryRepository.findReadingRoomInfo(libraryId);
+        return readingRoomRepository.readingRoomList(libraryId);
     }
 
     /**
