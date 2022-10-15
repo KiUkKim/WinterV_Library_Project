@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class FacilitiesService {
 
         log.info("id" + libraryId);
         log.info("l : " + l);
-        log.info("readingroomList : " + l.getReadingRoomList());
+        Assert.notNull(l.getReadingRoomList(), "L is not must be null");
         return l.getReadingRoomList();
     }
 
