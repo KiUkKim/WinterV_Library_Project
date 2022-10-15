@@ -40,7 +40,7 @@ public class FacilitiesService {
 
         log.info("id" + libraryId);
         log.info("l : " + l);
-
+        log.info("readingroomList : " + l.getReadingRoomList());
         return l.getReadingRoomList();
     }
 
