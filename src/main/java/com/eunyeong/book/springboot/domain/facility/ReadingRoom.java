@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@JsonIgnoreProperties(value = {"hibenateLazy Initializer","handler"})
+@JsonIgnoreProperties(value = {"hibenateLazy Initializer","handler", "seatsList"})
 @NoArgsConstructor
 @Entity
 @Table(name="readingRooms")
