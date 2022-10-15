@@ -37,7 +37,7 @@ public class Seats {
     private LocalDateTime assignmentT; //16:46까지, 배정시간(현재시간+사용시간)
 
     @JsonBackReference
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(targetEntity = ReadingRoom.class, fetch=FetchType.EAGER)
     @JoinColumn(name="READINGROOM_ID")
     private ReadingRoom readingRoom;
 
