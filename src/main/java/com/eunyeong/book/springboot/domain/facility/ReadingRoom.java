@@ -2,6 +2,7 @@ package com.eunyeong.book.springboot.domain.facility;
 
 import com.eunyeong.book.springboot.domain.books.Library;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,6 +42,7 @@ public class ReadingRoom {
     @Column
     private Integer utilizationRate;
 
+    @JsonIgnoreProperties(value = {"seatsList"}, allowGetters = true)
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "readingRoom", orphanRemoval = true)
     private List<Seats> seatsList = new ArrayList<>();
