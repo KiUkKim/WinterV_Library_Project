@@ -29,8 +29,7 @@ public class FacilitiesApiController {
     @ResponseBody
     public Map<String, Object> readingRoom(@PathVariable Long library_id) {
         Map<String, Object> map = new HashMap();
-        map.put("readingRoom", facilitiesService.findReadingRoom(library_id));
-        map.put("Seats", facilitiesService.findSeats(library_id));
+        map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
         return map;
     }
 

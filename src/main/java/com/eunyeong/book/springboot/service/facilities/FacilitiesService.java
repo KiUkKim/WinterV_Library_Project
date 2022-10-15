@@ -36,7 +36,7 @@ public class FacilitiesService {
      * 해당 도서관별로 열람실 정보 가져오기
      */
     @Transactional(readOnly = true)
-    public List<ReadingRoom> findReadingRoomByLibraryId(Long libraryId) {
+    public List<List<ReadingRoom>> findReadingRoomByLibraryId(Long libraryId) {
         // 해당 libraryId의 도서관을 가져온다
 //        Library l = findLibrary(libraryId);
 
@@ -44,18 +44,6 @@ public class FacilitiesService {
 //        log.info("l : " + l);
 
         return readingRoomRepository.readingRoomList(libraryId);
-    }
-
-    @Transactional
-    public List<ReadingRoom> findReadingRoom(Long libraryId)
-    {
-        return seatsRepository.ReturnReadingRoom(libraryId);
-    }
-
-    @Transactional
-    public List<Seats> findSeats(Long libraryId)
-    {
-        return seatsRepository.ReturnSeats(libraryId);
     }
 
     /**
