@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@JsonIgnoreProperties(value = {"hibenateLazy Initializer","handler"})
 @NoArgsConstructor
 @Entity
 @Table(name="readingRooms")
@@ -43,7 +44,6 @@ public class ReadingRoom {
     @Column
     private Integer utilizationRate;
 
-    @JsonIgnore
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "readingRoom", orphanRemoval = true)
     private List<Seats> seatsList = new ArrayList<>();
