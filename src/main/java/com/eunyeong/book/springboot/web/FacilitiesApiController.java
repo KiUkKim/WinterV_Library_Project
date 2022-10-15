@@ -3,7 +3,6 @@ package com.eunyeong.book.springboot.web;
 
 import com.eunyeong.book.springboot.domain.facility.FacilityInfo;
 import com.eunyeong.book.springboot.domain.facility.FacilityReserve;
-import com.eunyeong.book.springboot.domain.facility.ReadingRoom;
 import com.eunyeong.book.springboot.domain.facility.Seats;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.service.facilities.FacilitiesService;
@@ -28,10 +27,11 @@ public class FacilitiesApiController {
 
     @GetMapping({"/readingroom/{library_id}"})
     @ResponseBody
-    public List<ReadingRoom> readingRoom(@PathVariable Long library_id) {
-//        Map<String, Object> map = new HashMap();
-//        map.put("readingRoom", facilitiesService.findReadingRoomByLibraryId(library_id));
-        return facilitiesService.findReadingRoomByLibraryId(library_id);
+    public Map<String, Object> readingRoom(@PathVariable Long library_id) {
+        Map<String, Object> map = new HashMap();
+        map.put("readingRoom", facilitiesService.findReadingRoom(library_id));
+        map.put("Seats", facilitiesService.findSeats(library_id));
+        return map;
     }
 
     @PutMapping({"seat/assignment"})

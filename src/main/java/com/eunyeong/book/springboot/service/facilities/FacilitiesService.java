@@ -46,6 +46,18 @@ public class FacilitiesService {
         return readingRoomRepository.readingRoomList(libraryId);
     }
 
+    @Transactional
+    public List<ReadingRoom> findReadingRoom(Long libraryId)
+    {
+        return seatsRepository.ReturnReadingRoom(libraryId);
+    }
+
+    @Transactional
+    public List<Seats> findSeats(Long libraryId)
+    {
+        return seatsRepository.ReturnSeats(libraryId);
+    }
+
     /**
      * 좌석 배정
      */
