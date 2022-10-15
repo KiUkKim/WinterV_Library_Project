@@ -37,12 +37,12 @@ public class FacilitiesService {
     @Transactional(readOnly = true)
     public List<ReadingRoom> findReadingRoomByLibraryId(Long libraryId) {
         // 해당 libraryId의 도서관을 가져온다
-        Library l = findLibrary(libraryId);
+//        Library l = findLibrary(libraryId);
 
         log.info("id" + libraryId);
-        log.info("l : " + l);
-        Assert.notNull(l.getReadingRoomList(), "L is not must be null");
-        return l.getReadingRoomList();
+//        log.info("l : " + l);
+
+        return libraryRepository.findReadingRoomInfo(libraryId);
     }
 
     /**
