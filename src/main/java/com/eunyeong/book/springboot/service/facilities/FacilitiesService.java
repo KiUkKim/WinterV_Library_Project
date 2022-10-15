@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @EnableScheduling // 스케줄링 기능을 enable 함
@@ -44,11 +43,7 @@ public class FacilitiesService {
         log.info("id" + libraryId);
 //        log.info("l : " + l);
 
-        List<ReadingRoom> readingRoomList = new ArrayList<>();
-
-        readingRoomList = readingRoomRepository.readingRoomList(libraryId);
-
-        return readingRoomList;
+        return readingRoomRepository.readingRoomList(libraryId);
     }
 
     /**
