@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -119,16 +121,20 @@ public class CommentsService {
     
     // 댓글
     @Transactional
-    public List<Comments> findComments(Long community_id)
+    public List<UserDto.CommentsDetailDto> findComments(Long community_id)
     {
-        return commentsRepository.findCommentList(community_id);
+        return commentsRepository.findCommentList(community_id).stream()
+                .map(UserDto.CommentsDetailDto::new)
+                .collect(Collectors.toList());
     }
     
     // 대댓글
     @Transactional
-    public List<Comments> findCcoments(Long community_id)
+    public List<UserDto.CommentsDetailDto> findCcoments(Long user_id, Long community_id)
     {
-        return commentsRepository.findCcomentsList(community_id);
+        return commentsRepository.findCcomentsList(user_id, community_id).stream()
+                .map(UserDto.CommentsDetailDto::new)
+                .collect(Collectors.toList());
     }
     
 
@@ -153,5 +159,14 @@ public class CommentsService {
         return commentsRepository.FindBoardId(cmt_id);
     }
 
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// 댓글 대댓글 관련 로직 /////////////////////////////////////
+    //////////////////// 수정중 2022-11-7 3차 ////////////////////////////////////////////////
+    @Transactional
+    public List<Map<String, Object>> InfoCommunityComments(Long cmt_id)
+    {
+        return commentsRepository.CommunityCommentsList(cmt_id);
+    }
 
 }

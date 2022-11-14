@@ -3,6 +3,7 @@ package com.eunyeong.book.springboot.web;
 import com.eunyeong.book.springboot.domain.user.User;
 import com.eunyeong.book.springboot.service.Comments.CommentsService;
 import com.eunyeong.book.springboot.service.user.UserService;
+import com.eunyeong.book.springboot.web.dto.CommunityDto;
 import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -74,7 +75,7 @@ public class CommunityApiController {
     // 커뮤니티 특정 게시글 조회 ( 게시글 눌렀을 때 보이는 정보 )
     @GetMapping("/community/detail")
     @ResponseBody
-    public Map<String, Object> searchCommunity(@RequestParam(value = "id", required = true) Long id)
+    public Map searchCommunity(@RequestParam(value = "id", required = true) Long id)
     {
         // ID Bean Null check
         Assert.notNull(id, "id must not be NULL");
@@ -90,14 +91,31 @@ public class CommunityApiController {
         // 게시물 조회
         map.put("communityDetail", userService.searchUserCommunity(user_id, id));
 
-        // 댓글 조회
-        map.put("commentsList", commentsService.findComments(id));
+//        List<Map<String, Object>> commentsList = commentsService.InfoCommunityComments(id);
 
+        List<Long> user_id2 = userService.commentsUser(id);
+//
+//        map.put("commentsList", commentsList);
+
+        List<UserDto.CommentsDetailDto> findComments = new ArrayList<>();
+
+        findComments = commentsService.findComments(id);
+
+        for(int i = 0; i < findComments.size(); i++)
+        {
+            map.put("commentsList", findComments);
+        }
+
+        user_id = userService.CcomentsUser(id);
         // 대댓글 조회
-        map.put("CcomentsList", commentsService.findCcoments(id));
+        map.put("CcomentsList", commentsService.findCcoments(user_id, id));
 
         //Bean null check
         Assert.notNull(map, "map must not be NULL");
+
+//        CommunityDto.ForCommunityResponseDto communityResponseDto = new CommunityDto.ForCommunityResponseDto();
+//
+//        communityResponseDto.update(map, commentsList, commentsList);
 
         return map;
     }

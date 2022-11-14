@@ -19,6 +19,8 @@ public class UserService {
 
     private final CommunityRepository communityRepository;
 
+    private final CommentsRepository commentsRepository;
+
 
     @Transactional
     public Long save(UserDto.UserdDto userDto)
@@ -211,6 +213,16 @@ public class UserService {
     public Long communityUser(Long id)
     {
         return communityRepository.findCommunityUser(id);
+    }
+
+    public List<Long> commentsUser(Long community_id)
+    {
+        return commentsRepository.CommentsUser(community_id);
+    }
+
+    public Long CcomentsUser(Long community_id)
+    {
+        return commentsRepository.CcommentsUser(community_id);
     }
 
     /*

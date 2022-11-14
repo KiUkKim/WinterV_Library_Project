@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SeatsRepository extends JpaRepository<Seats, Long> {
     Seats findSeatByUser(User user);
+
+
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CommentsRepository extends JpaRepository<Comments, Long> {
 
@@ -46,13 +47,27 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
 //    @Query("SELECT c.cmt_id, c.CommentDepth, c.content, c.CommentDel, c.user.userInfo.given_name, c.createdDate, c.modifiedDate FROM Comments c WHERE c.CommentGroup = :GroupId")
 //    List<Comments> findCcomentsList(Long GroupId);
 
-    @Query("SELECT c FROM Comments c WHERE c.community.id = :community_id and c.CommentDepth = 0")
+    @Query("SELECT c, c.user.userInfo.name FROM Comments c WHERE c.community.id = :community_id and c.CommentDepth = 0")
     List<Comments> findCommentList(Long community_id);
 
     // 대댓글 조회
-    @Query("SELECT c FROM Comments c WHERE c.CommentGroup = :GroupId")
-    List<Comments> findCcomentsList(Long GroupId);
+    @Query("SELECT c, c.user.userInfo.name FROM Comments c WHERE c.community.id = :community_id " +
+            "AND c.CommentDepth = 1 AND c.user.seq = :user_id")
+    List<Comments> findCcomentsList(Long user_id, Long community_id);
 
+
+
+    /*
+    Comments User 찾기 원함
+     */
+    @Query("SELECT c.user.seq FROM Comments c WHERE c.community.id = :community_id and c.CommentDepth = 0")
+    List<Long> CommentsUser(Long community_id);
+
+    /*
+    CComents User 찾기 원함
+     */
+    @Query("SELECT c.user.seq FROM Comments c WHERE c.community.id = :community_id and c.CommentDepth = 1")
+    Long CcommentsUser(Long community_id);
 
 
     /////////////////////////////////////////// 대댓글 //////////////////////////////////////////////////
@@ -65,4 +80,11 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
     // 대댓글 입력시 cmt_id에 해당하는 게시판 번호 받아오기
     @Query("SELECT c.community.id FROM Comments c WHERE c.cmt_id = :cmt_id")
     Long FindBoardId(Long cmt_id);
+
+    /////////////////////////////////////////////////////////////////////
+    /*
+    댓글 대댓글 관련 최신 쿼리 (2022-11-6)
+    */
+    @Query("SELECT c.createdDate, c.modifiedDate, c.CommentDel, c.content, u.userInfo.name FROM Comments c LEFT JOIN User u ON u.seq = c.user.seq WHERE c.cmt_id = :cmt_id and c.CommentDepth = 0")
+    List<Map<String, Object>> CommunityCommentsList(Long cmt_id);
 }

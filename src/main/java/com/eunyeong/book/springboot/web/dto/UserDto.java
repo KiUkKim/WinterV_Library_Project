@@ -457,4 +457,36 @@ public class UserDto {
         }
     }
 
+
+    /*
+    댓글 대댓글 관련 조회
+     */
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CommentsDetailDto{
+        private LocalDateTime createdDate;
+        private LocalDateTime modifiedDate;
+        private String content;
+        private int commentDepth;
+        private int commentCount;
+        private String commentDel;
+        private Long commentGroup;
+
+        // User 영역
+        private String name;
+
+        public CommentsDetailDto(Comments entity)
+        {
+            createdDate = entity.getCreatedDate();
+            modifiedDate = entity.getModifiedDate();
+            content = entity.getContent();
+            commentDepth = entity.getCommentDepth();
+            commentCount = entity.getCommentCount();
+            commentDel = entity.getCommentDel();
+            commentGroup = entity.getCommentGroup();
+            name = entity.getUser().getUserInfo().getName().toString();
+        }
+    }
+
 }

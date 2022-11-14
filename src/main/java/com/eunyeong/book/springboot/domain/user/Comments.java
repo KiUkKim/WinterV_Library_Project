@@ -52,7 +52,7 @@ public class Comments extends BaseTimeEntity {
 
     // 댓글 삭제 여부 확인 ( 삭제되었으면 front에서 삭제된 댓글이라고 띄우기 위함)
     @Column(name = "CommentDel")
-    private String CommentDel = "YES";
+    private String CommentDel = "NO";
 
     @Builder
     public Comments(String content, User user, Community community, int CommentDepth, Long CommentGroup)
