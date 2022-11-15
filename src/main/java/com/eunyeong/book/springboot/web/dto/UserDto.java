@@ -465,6 +465,7 @@ public class UserDto {
     @Setter
     @NoArgsConstructor
     public static class CommentsDetailDto{
+        private Long cmt_id;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
         private String content;
@@ -478,6 +479,7 @@ public class UserDto {
 
         public CommentsDetailDto(Comments entity)
         {
+            cmt_id = entity.getCmt_id();
             createdDate = entity.getCreatedDate();
             modifiedDate = entity.getModifiedDate();
             content = entity.getContent();
@@ -485,7 +487,7 @@ public class UserDto {
             commentCount = entity.getCommentCount();
             commentDel = entity.getCommentDel();
             commentGroup = entity.getCommentGroup();
-            name = entity.getUser().getUserInfo().getName().toString();
+            name = entity.getUser().getUserInfo().getName();
         }
     }
 
