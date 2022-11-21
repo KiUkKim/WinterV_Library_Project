@@ -15,7 +15,7 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
     User findUSerByComments(Long seq);
 
     // save를 위해서 Community 객체 찾기
-    @Query("SELECT c FROM Community c WHERE c.id = :id")
+    @Query("SELECT c FROM SubjectCommunity c WHERE c.id = :id")
     Community findCommunityByComments(@Param("id") Long id);
 
     // Comments의 작성자와 삭제하려는 게시물의 번호가 일치하는 지 확인.
