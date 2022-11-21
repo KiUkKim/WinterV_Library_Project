@@ -1,8 +1,7 @@
 package com.eunyeong.book.springboot.service.user;
 
-import com.eunyeong.book.springboot.domain.SubjectCommunity.SubComments.SubComments;
+
 import com.eunyeong.book.springboot.domain.SubjectCommunity.SubComments.SubCommentsRepository;
-import com.eunyeong.book.springboot.domain.SubjectCommunity.SubjectCommunity;
 import com.eunyeong.book.springboot.domain.SubjectCommunity.SubjectCommunityRepository;
 import com.eunyeong.book.springboot.domain.user.*;
 import com.eunyeong.book.springboot.web.dto.SubjectDto;
