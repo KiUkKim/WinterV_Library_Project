@@ -108,4 +108,31 @@ public class SubjectCommunityService {
                 .map(SubjectDto.SubCommunityListResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    // 특정 커뮤니티 출력
+    public List<SubjectDto.SubCommunityListResponseDto> searchSubjectDescCommunity(Long subjectNum)
+    {
+        return subjectCommunityRepository.findSubjectCommunitiesBy(subjectNum).stream()
+                .map(SubjectDto.SubCommunityListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+        /*
+    Community update view
+     */
+    // Community 조회수 증가
+    @Transactional
+    public int updateSubCommunityView(Long id)
+    {
+        return subjectCommunityRepository.updateSubCommunityView(id);
+    }
+
+        /*
+    Community Table User seq 찾기
+     */
+
+    public Long SubcommunityUser(Long id)
+    {
+        return subjectCommunityRepository.findSubCommunityUser(id);
+    }
 }

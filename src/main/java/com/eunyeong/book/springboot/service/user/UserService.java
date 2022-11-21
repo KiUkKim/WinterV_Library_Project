@@ -1,6 +1,11 @@
 package com.eunyeong.book.springboot.service.user;
 
+import com.eunyeong.book.springboot.domain.SubjectCommunity.SubComments.SubComments;
+import com.eunyeong.book.springboot.domain.SubjectCommunity.SubComments.SubCommentsRepository;
+import com.eunyeong.book.springboot.domain.SubjectCommunity.SubjectCommunity;
+import com.eunyeong.book.springboot.domain.SubjectCommunity.SubjectCommunityRepository;
 import com.eunyeong.book.springboot.domain.user.*;
+import com.eunyeong.book.springboot.web.dto.SubjectDto;
 import com.eunyeong.book.springboot.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +25,10 @@ public class UserService {
     private final CommunityRepository communityRepository;
 
     private final CommentsRepository commentsRepository;
+
+    private final SubjectCommunityRepository subjectCommunityRepository;
+
+    private final SubCommentsRepository subCommentsRepository;
 
 
     @Transactional
@@ -240,6 +249,13 @@ public class UserService {
     public List<UserDto.CommunityListResponseDto> searchUserCommunity(Long user_id, Long id){
         return communityRepository.findCommunityDetail(user_id, id).stream()
                 .map(UserDto.CommunityListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<SubjectDto.SubCommunityListResponseDto> searchUserSubCommunity(Long user_id, Long id){
+        return subjectCommunityRepository.findSubCommunityDetail(user_id, id).stream()
+                .map(SubjectDto.SubCommunityListResponseDto::new)
                 .collect(Collectors.toList());
     }
 
