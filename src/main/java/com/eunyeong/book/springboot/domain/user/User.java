@@ -1,6 +1,9 @@
 package com.eunyeong.book.springboot.domain.user;
 
 import com.eunyeong.book.springboot.domain.BaseTimeEntity;
+import com.eunyeong.book.springboot.domain.Group.Group;
+import com.eunyeong.book.springboot.domain.SubjectCommunity.SubComments.SubComments;
+import com.eunyeong.book.springboot.domain.SubjectCommunity.SubjectCommunity;
 import com.eunyeong.book.springboot.domain.books.CollectInfo;
 import com.eunyeong.book.springboot.domain.books.Reserve;
 import com.eunyeong.book.springboot.domain.facility.Seats;
@@ -53,6 +56,17 @@ public class User extends BaseTimeEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<Comments> commentsList = new ArrayList<>();
 
+//    @JsonManagedReference
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+//    private List<SubComments> subCommentsList = new ArrayList<>();
+//
+//    @JsonManagedReference
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+//    private List<SubjectCommunity> subjectCommunityList = new ArrayList<>();
+
+//    @JsonManagedReference
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+//    private List<Group> groupsList = new ArrayList<>();
 
 
     @Builder
