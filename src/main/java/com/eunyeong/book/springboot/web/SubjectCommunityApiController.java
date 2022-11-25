@@ -39,6 +39,8 @@ public class SubjectCommunityApiController {
             // Beanutils를 이용하여서 이러한 두 가지 DTO를 이용해서 저장
             User user = subjectCommunityService.findNotice(seq);
 
+            Assert.notNull(user, "user must not be null");
+
             SubjectDto.SubjectCommunitySaveDto communitySaveDto = new SubjectDto.SubjectCommunitySaveDto();
 
             communitySaveDto.setUser(user);

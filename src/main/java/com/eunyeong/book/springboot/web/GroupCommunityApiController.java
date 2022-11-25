@@ -26,13 +26,15 @@ public class GroupCommunityApiController {
     @ResponseBody
     public Long GroupCommunitySaveController(@RequestBody GroupDto.GroupSaveDto groupSaveDto)
     {
-        System.out.println(groupSaveDto.getEndJoinTime());
-        System.out.println(groupSaveDto.getEndTime());
+        System.out.println(groupSaveDto.getEnd_at());
+        System.out.println(groupSaveDto.getApply_until());
         // front에서 전달받은 JSON 객체 중 email을 id로 변환
         Long seq = userService.SearchUser(groupSaveDto.getEmail());
 
         // 변환된 유저로 해당 유저에 대한 정보 받아주기
         User u = userService.findNotice(seq);
+
+        Assert.notNull(u, "user must not be null");
 
         GroupDto.GroupCommunitySaveDto groupCommunitySaveDto = new GroupDto.GroupCommunitySaveDto();
 

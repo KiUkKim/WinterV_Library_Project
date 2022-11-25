@@ -27,12 +27,15 @@ public class GroupDto {
         private int view_count;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-        private LocalDateTime EndTime;
+        private LocalDateTime start_at;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-        private LocalDateTime EndJoinTime;
+        private LocalDateTime end_at;
 
-        private String tag;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+        private LocalDateTime apply_until;
+
+        private String tags;
     }
 
 
@@ -49,21 +52,27 @@ public class GroupDto {
         // User 작성자를 위한 Entity 영역
         private User user;
 
+        // 시작 시간 받기 위함
+        private LocalDateTime start_at;
+
         // 끝나는 시간 받기 위함
-        private LocalDateTime EndTime;
+        private LocalDateTime end_at;
         
         // 마감 시간 받기 위함
-        private LocalDateTime EndJoinTime;
+        private LocalDateTime apply_until;
 
-        private String tag;
+        private String tags;
         
         @Builder
-        public GroupCommunitySaveDto(String description, int view_count, String title, User user, LocalDateTime EndTime) {
+        public GroupCommunitySaveDto(String description, int view_count, String title, User user, LocalDateTime start_at, LocalDateTime end_at, LocalDateTime apply_until, String tags) {
             this.description = description;
             this.view_count = view_count;
             this.title = title;
             this.user = user;
-            this.EndTime = EndTime;
+            this.start_at = start_at;
+            this.end_at = end_at;
+            this.apply_until = apply_until;
+            this.tags = tags;
         }
 
 
@@ -74,9 +83,10 @@ public class GroupDto {
                     .description(description)
                     .view_count(view_count)
                     .user(user)
-                    .EndTime(EndTime)
-                    .EndJoinTime(EndJoinTime)
-                    .tag(tag)
+                    .start_at(start_at)
+                    .end_at(end_at)
+                    .apply_until(apply_until)
+                    .tags(tags)
                     .build();
         }
     }
@@ -90,11 +100,13 @@ public class GroupDto {
         // Community 영역
         private Long group_Id;
         private LocalDateTime created_date;
-        private LocalDateTime EndTime; // 종료 날짜
-        private LocalDateTime EndJoinTime; // 모집 종료 날짜
+        private LocalDateTime start_at; // 시작 날짜
+        private LocalDateTime end_at; // 종료 날짜
+        private LocalDateTime apply_until; // 모집 종료 날짜
         private String description;
         private String title;
         private int view_count;
+        private String tags;
 
         // User 영역
         private String email;
@@ -105,12 +117,14 @@ public class GroupDto {
             this.group_Id = entity.getGroup_Id();
             this.created_date = entity.getCreatedDate();
             this.description = entity.getDescription();
-            this.EndTime = entity.getEndTime();
-            this.EndJoinTime = entity.getEndJoinTime();
+            this.start_at = entity.getStart_at();
+            this.end_at = entity.getEnd_at();
+            this.apply_until = entity.getApply_until();
             this.title = entity.getTitle();
             this.view_count = entity.getView_count();
             this.email = entity.getUser().getUserInfo().getEmail();
             this.name = entity.getUser().getUserInfo().getName();
+            this.tags = entity.getTags();
         }
     }
 }

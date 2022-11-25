@@ -46,31 +46,36 @@ public class Group extends BaseTimeEntity{
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 //    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime EndTime;
+    private LocalDateTime end_at;
 
     // 모집 마감 시간
 //    @Column
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime EndJoinTime;
+    private LocalDateTime apply_until;
+
+    // 시작 시간
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime start_at;
 
     // 스터디 게시판 관련 tag
     @Column(name = "tag", columnDefinition = "TEXT")
-    private String tag;
+    private String tags;
 
     //TODO
     // 스터디 참여자 등록
 
     @Builder
-    public Group(String title, String description, int view_count, User user, LocalDateTime EndTime, LocalDateTime EndJoinTime, String tag)
+    public Group(String title, String description, int view_count, User user, LocalDateTime end_at, LocalDateTime apply_until, LocalDateTime start_at, String tags)
     {
         this.title = title;
         this.description = description;
         this.view_count = view_count;
         this.user = user;
-        this.EndTime = EndTime;
-        this.EndJoinTime = EndJoinTime;
-        this.tag = tag;
+        this.start_at = start_at;
+        this.end_at = end_at;
+        this.apply_until = apply_until;
+        this.tags = tags;
     }
 
     // 게시글 수정
