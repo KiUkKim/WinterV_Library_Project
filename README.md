@@ -1,39 +1,19 @@
-# Repository_name : WinterV_Library Vacation
+# 💫  SpaceDer Launcher 💫
 
-## 🍕 겨울방학 도서관 어플리케이션 프로젝트
-
-### 📍 Project Role
-- Front-End : wakhoo (Chae-Won-Jeon)
-- Back-End : zidh1(Ki-Uk-Kim) , jey0623(Eun-Yeong-Jung)
-
-### 📍 Language for Project
-- Front-End : React-Native
-- Back-End : Java Spring Boot
+![photo](https://i.imgur.com/wT7kYsO.png)
 
 
-### 📍 Development Schedule
-- 매주 1~2회 회의 진행
-- 회의록 작성 및 진행 사항 공유
+![1](https://img.shields.io/badge/Rating%3A%20%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%98%85-gold?logo=Github&logoColor=Gray&label=GitHub)
 
-<hr>
+  ### <p align="center"> ⬇ _Download_ ⬇ </p>
+ 
+ [![link](https://github.com/YusaKatsuragi/PalWorld-ES-Main/assets/12540354/cd58ba38-5e50-4f9c-adfb-42c81c0901f0)](https://www.youtube.com/)     
 
-### 📕 구현 예정 기능
-
-- [ ] 로그인 기능
-- [ ] 소장 자료 검색 (카카오 API)
-- [ ] 도서 예약
-- [ ] 예약 현황, 대출 현황
-- [ ] 스터디룸 , 시설물 예약
-- [ ] 열람실 좌석 배정
-- [ ] 개인 공지 사항
-- [ ] 공지 사항
-- [ ] 이용시간/층별 안내/연락처 안내
-- [ ] 커뮤니티
-
-<hr>
-
-### 회의록 및 추가 정보
-
-- <a href = https://www.notion.so/3432a6226ca648d29bedf8c76fc13412>팀 게시판 </a>
-- <a href = https://overjoyed-silence-954.notion.site/2021-01-09-08b4061e54844ac184a7b88d8b2460d6>회의록(2021.01.09)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Honk&size=30&pause=1000&random=false&width=435&lines=Version+1.38.5++%F0%9F%92%9D;Last+Update%3A+2.8.2024+%F0%9F%92%9D)](https://git.io/typing-svg)
+## 💌 Instruction
+ - Open archive
+ - Unzip to dekstop.
+ -  Run Launcher.exe file
+ - Start the game. Press HOME
+ 
 
